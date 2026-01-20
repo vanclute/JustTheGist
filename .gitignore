@@ -1,0 +1,41 @@
+# JustTheGist generated files
+config.json
+docs/
+
+# Temporary transcript/subtitle files
+*.vtt
+*.srt
+
+# Whisper output
+*.txt.tmp
+
+# yt-dlp output
+*.json.tmp
+*.part
+*.ytdl
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editor files
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.env
+
+# Whisper model cache (can be large)
+# Uncomment if you don't want to track models
+# ~/.cache/whisper/
