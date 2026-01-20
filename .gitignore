@@ -2,6 +2,7 @@
 config.json
 docs/
 temp/
+knowledge_base/
 
 # Temporary transcript/subtitle files
 *.vtt

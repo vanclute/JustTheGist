@@ -12,18 +12,16 @@ You find an interesting-looking YouTube video, podcast, or article. It's 45 minu
 
 Give the URL (or file) to your AI coding assistant. Tell it what you're hoping to learn. Get a detailed, tailored analysis in moments—complete with key takeaways, resources mentioned, notable quotes, and an honest assessment of whether the full content is worth your time.
 
-## Two Modes
+## Three Modes
 
 **Analyze Mode** (passive)
 Give it a URL or file, tell it what you're looking for, get a tailored analysis.
 
 **Research Mode** (active)
-Tell it what topic you want to learn about. It will:
-1. Ask clarifying questions to understand your goals
-2. Search YouTube for relevant content
-3. Curate the best candidates
-4. Analyze each one
-5. Synthesize findings into a comprehensive research report
+Tell it what topic you want to learn about. It will search, curate, analyze, and synthesize findings from multiple sources.
+
+**Recall Mode** (memory)
+Query your personal knowledge base - everything you've previously analyzed, stored for semantic search and instant recall.
 
 ## Supported Content Types
 
@@ -98,6 +96,10 @@ You get two things:
 - "Research the current state of AI coding assistants - find me 10 videos and tell me what the consensus is"
 - "I want to learn about home automation. Find beginner-friendly content and summarize the key concepts."
 
+**Recall Mode**
+- "What did I learn about authentication patterns?" (searches your knowledge base)
+- "Show me everything I've saved about React performance"
+
 ## How It Works
 
 No magic, no custom code. Just well-crafted instructions that tell your AI assistant:
@@ -121,6 +123,21 @@ JustTheGist automatically optimizes for cost and speed by delegating tasks appro
 | Analysis & report writing | Standard (Sonnet/Pro/GPT-4o) | Requires judgment and synthesis |
 
 This can reduce costs by 10-20x for extraction tasks while maintaining analysis quality. Tools that don't support model switching simply use the default model for everything.
+
+## Knowledge Base
+
+JustTheGist can build a persistent "brain" from everything you analyze:
+
+- **Store** - After any analysis, optionally save insights to your local vector database
+- **Recall** - Semantically search your accumulated knowledge anytime
+- **Cite** - Results include source attribution ("According to [Video] by [Channel]...")
+
+Built on ChromaDB + sentence-transformers. Runs locally, no cloud required, works on CPU.
+
+**Additional dependencies** (installed automatically if you enable this feature):
+```bash
+pip install chromadb sentence-transformers
+```
 
 ## Privacy
 
@@ -147,6 +164,7 @@ Curious what dependencies your AI assistant installs? Only what you need:
 | Other online video | `yt-dlp` | Supports [1000+ sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) |
 | Local audio/video | `openai-whisper` | Also requires ffmpeg (install via system package manager) |
 | Web articles & PDFs | None | Built into your AI tool |
+| Knowledge Base | `chromadb`, `sentence-transformers` | Local vector DB + embeddings |
 
 For local audio/video, you'll also need [ffmpeg](https://ffmpeg.org/download.html):
 - **Windows**: `winget install ffmpeg`

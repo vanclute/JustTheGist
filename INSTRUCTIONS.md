@@ -13,11 +13,13 @@ When a user starts a session, greet them and present their options:
 "Welcome to JustTheGist! What would you like to do?
 
 1. **Analyze** - I have a specific URL or file to analyze
-2. **Research** - Help me explore a topic (you'll find relevant content for me)"
+2. **Research** - Help me explore a topic (you'll find relevant content for me)
+3. **Recall** - Search my knowledge base for something I've learned before"
 
 Wait for their response, then:
 - If **Analyze**: Proceed to Step 1 (Understand User Goals) in the Core Workflow
 - If **Research**: Proceed to the Research Mode workflow below
+- If **Recall**: Proceed to the Knowledge Base Query workflow
 
 ---
 
@@ -31,6 +33,7 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
    - **Local audio files** (requires: openai-whisper, ffmpeg)
    - **Local video files** (requires: openai-whisper, ffmpeg)
    - **Web articles & PDFs** (no dependencies - always available)
+   - **Knowledge Base** (requires: chromadb, sentence-transformers)
 
 3. Install only the dependencies they need:
    ```bash
@@ -40,6 +43,9 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
    # For local audio/video transcription
    pip install openai-whisper
    # Note: ffmpeg must be installed separately via system package manager
+
+   # For Knowledge Base (persistent memory)
+   pip install chromadb sentence-transformers
    ```
 
 4. Save their preferences to `config.json`:
@@ -50,7 +56,8 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
        "local_audio": true,
        "local_video": true,
        "web_articles": true,
-       "pdfs": true
+       "pdfs": true,
+       "knowledge_base": true
      },
      "setup_complete": true
    }
@@ -267,6 +274,32 @@ Synthesize all findings:
 - Generate comprehensive research report in `docs/`
 
 Present executive summary to user.
+
+---
+
+## Knowledge Base
+
+JustTheGist can build a persistent "brain" from analyzed content using a local vector database (ChromaDB with sentence-transformers for embeddings).
+
+### Setup
+```python
+import chromadb
+client = chromadb.PersistentClient(path="knowledge_base/chroma_db")
+collection = client.get_or_create_collection(name="justthegist")
+```
+
+### Storing Knowledge
+After analysis, ask: "Store this in your knowledge base?"
+If yes: chunk transcript (~500 tokens), embed automatically, store with metadata (source_url, title, channel, date, summary, topic_tags).
+
+### Recall Mode
+When user selects Recall:
+1. Ask what they want to know
+2. Query: `collection.query(query_texts=[question], n_results=5)`
+3. Present findings with source attribution ("According to [Video] by [Channel]...")
+
+### Integration
+Before new analyses, optionally check KB for related prior knowledge.
 
 ---
 
