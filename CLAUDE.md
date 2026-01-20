@@ -110,6 +110,69 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
 
 ---
 
+## Dependency Auto-Install
+
+JustTheGist installs dependencies on-demand. You don't need to manually set anything up - when a tool is needed, it's installed automatically.
+
+### How It Works
+
+```python
+def ensure_installed(package_name, pip_package=None, check_command=None):
+    """Install package if not already present"""
+    import subprocess
+    pip_package = pip_package or package_name
+    check_command = check_command or f"python -m {package_name} --version"
+
+    try:
+        # Try to run the tool
+        subprocess.run(check_command.split(),
+                      capture_output=True, check=True, timeout=5)
+        return True  # Already installed
+    except:
+        print(f"Installing {package_name}...")
+        try:
+            subprocess.run(["pip", "install", pip_package],
+                          capture_output=True, check=True, timeout=120)
+            print(f"✓ {package_name} installed successfully")
+            return True
+        except Exception as e:
+            print(f"⚠ Failed to install {package_name}: {e}")
+            return False
+```
+
+### Before Each Content Type
+
+Before attempting to process any content type, ensure dependencies:
+
+**YouTube/Online Video:**
+```python
+ensure_installed("yt-dlp")
+ensure_installed("youtube-transcript-api")
+```
+
+**Local Audio/Video:**
+```python
+ensure_installed("openai-whisper")
+# Note: ffmpeg also needed - user must install via system package manager
+```
+
+**Knowledge Base:**
+```python
+ensure_installed("chromadb")
+ensure_installed("sentence-transformers")
+```
+
+### User Experience
+
+Dependencies install silently in the background when first needed. User sees:
+```
+Installing yt-dlp...
+✓ yt-dlp installed successfully
+[continuing with analysis...]
+```
+
+---
+
 ## Core Workflow
 
 When the user provides a URL or file path:
@@ -133,6 +196,13 @@ Identify what was provided:
 
 #### YouTube Videos
 
+Before processing YouTube content, ensure dependencies:
+```python
+# ALWAYS check dependencies first
+ensure_installed("yt-dlp")
+ensure_installed("youtube-transcript-api")
+```
+
 Delegate to low-reasoning agent (Haiku/Flash/etc.) with this prompt:
 ```
 Extract metadata and transcript from YouTube video: [URL]
@@ -153,6 +223,12 @@ The agent should:
 
 #### Other Online Videos (non-YouTube)
 
+Before processing non-YouTube videos, ensure dependencies:
+```python
+# ALWAYS check dependencies first
+ensure_installed("yt-dlp")
+```
+
 Delegate to low-reasoning agent to:
 - Extract metadata using `yt-dlp --dump-json --no-download`
 - Extract subtitles using `yt-dlp --write-auto-sub --sub-lang en`
@@ -168,12 +244,26 @@ Delegate to low-reasoning agent to:
 
 #### Local Audio Files
 
+Before processing local audio files, ensure dependencies:
+```python
+# ALWAYS check dependencies first
+ensure_installed("openai-whisper")
+# Note: ffmpeg also needed - user must install via system package manager
+```
+
 Delegate to low-reasoning agent to:
 - Transcribe using `whisper "filepath" --output_format txt --output_dir .`
 - Read generated `.txt` file
 - Return transcript text
 
 #### Local Video Files
+
+Before processing local video files, ensure dependencies:
+```python
+# ALWAYS check dependencies first
+ensure_installed("openai-whisper")
+# Note: ffmpeg also needed - user must install via system package manager
+```
 
 Delegate to low-reasoning agent to:
 - Transcribe using `whisper "filepath" --output_format txt --output_dir .`

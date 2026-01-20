@@ -65,6 +65,36 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
 
 ---
 
+## Dependency Auto-Install
+
+JustTheGist installs dependencies on-demand. When a tool is needed, it's installed automatically.
+
+### Before Each Content Type
+
+Check and install dependencies as needed:
+
+**YouTube/Online Video:**
+- Install: `yt-dlp`, `youtube-transcript-api`
+
+**Local Audio/Video:**
+- Install: `openai-whisper` (+ ffmpeg via system package manager)
+
+**Knowledge Base:**
+- Install: `chromadb`, `sentence-transformers`
+
+### User Experience
+
+Dependencies install silently when first needed:
+```
+Installing yt-dlp...
+✓ yt-dlp installed successfully
+[continuing with analysis...]
+```
+
+No manual setup required - just start using JustTheGist.
+
+---
+
 ## Core Workflow
 
 When the user provides a URL or file path:
