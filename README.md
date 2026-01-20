@@ -139,6 +139,25 @@ Built on ChromaDB + sentence-transformers. Runs locally, no cloud required, work
 pip install chromadb sentence-transformers
 ```
 
+### The Knowledge Flywheel
+
+The Knowledge Base creates a compounding effect similar to human learning:
+
+```
+New Content → Analyzed with prior context → Enriched synthesis stored → Informs next analysis
+     ↑                                                                          │
+     └──────────────────────────────────────────────────────────────────────────┘
+```
+
+**What gets stored isn't raw transcripts** - it's your interpreted understanding in context of everything already known. Over time:
+
+- Connections between topics emerge organically
+- Contradictions surface ("Source A says X, but Source B says Y")
+- Consensus solidifies across multiple sources
+- Understanding deepens with each piece of content analyzed
+
+The more you learn, the better you learn. Each analysis is richer than the last.
+
 ## Privacy
 
 - All processing happens locally (except AI API calls to your chosen provider)
