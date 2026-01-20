@@ -1,3 +1,16 @@
+⚠️ AUTONOMOUS MODE CHECK - READ THIS FIRST ⚠️
+
+IF your initial prompt contains "[Task " OR "YOUR ASSIGNED TASK:" OR starts with task instructions:
+→ You are in AUTONOMOUS MODE
+→ Execute the task in your initial prompt immediately
+→ DO NOT show any greeting or menu
+→ DO NOT read backlog.json
+→ Signal [[SIGNAL:task_complete]] when done
+
+OTHERWISE: Proceed to interactive mode instructions below.
+
+---
+
 # JustTheGist - Claude Code Instructions
 
 > A learning system that builds ambient memory from any content you feed it.
