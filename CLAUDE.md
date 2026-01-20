@@ -52,6 +52,8 @@ JustTheGist builds persistent knowledge from content you discover. Every analysi
 **IMPORTANT - Detect mode first:**
 
 **If the session starts with any of these patterns:**
+- "YOUR TASK:"
+- "AVAILABLE TASKS"
 - "[Autonomous Session"
 - "Knowledge base contains"
 - "The following tasks have been analyzed"
@@ -61,9 +63,9 @@ JustTheGist builds persistent knowledge from content you discover. Every analysi
 - "Work on task"
 
 **Then you are in autonomous mode:**
-- **Follow the instructions in the initial prompt EXACTLY**
+- **The initial message IS your task assignment - follow it EXACTLY**
 - Do NOT show the greeting below
-- Do NOT read backlog.json - work only with tasks/info provided in the prompt
+- Do NOT read backlog.json - all needed information is in the initial prompt
 - Signal `[[SIGNAL:task_complete]]` when done
 
 **Otherwise (interactive mode):**
