@@ -49,7 +49,16 @@ python scripts/query_kb.py "Greg Kamradt chunking recommendations" 5 --json
 
 JustTheGist builds persistent knowledge from content you discover. Every analysis enriches your ambient memory.
 
-When a user starts a session, greet them:
+**IMPORTANT - Detect mode first:**
+
+**If the session starts with a task prompt** (like "CONTEXT-AWARE TASK SELECTION", "Research:", "Work on task", etc.):
+- **You are in autonomous mode** - proceed directly with the task
+- Do NOT show the greeting below
+- Signal `[[SIGNAL:task_complete]]` when done
+
+**Otherwise (interactive mode):**
+
+When a user starts a session without an initial prompt, greet them:
 
 "Welcome to JustTheGist - your learning companion. What would you like to learn today?
 
