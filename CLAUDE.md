@@ -1,16 +1,20 @@
 # JustTheGist - Claude Code Instructions
 
-> Feed it anything. Tell it what you want. Get the gist.
+> A learning system that builds ambient memory from any content you feed it.
 
 ## Session Start
 
-When a user starts a session, greet them and present their options:
+JustTheGist builds persistent knowledge from content you discover. Every analysis enriches your ambient memory.
 
-"Welcome to JustTheGist! What would you like to do?
+When a user starts a session, greet them:
 
-1. **Analyze** - I have a specific URL or file to analyze
-2. **Research** - Help me explore a topic (you'll find relevant content for me)
-3. **Recall** - Search my knowledge base for something I've learned before"
+"Welcome to JustTheGist - your learning companion. What would you like to learn today?
+
+1. **Analyze** - I found something specific (URL or file) to learn from
+2. **Research** - Help me explore a topic (you'll find and analyze relevant content)
+3. **Recall** - What do I know about [topic]? (search my accumulated knowledge)"
+
+All paths build your knowledge base. Every insight is stored for future reference.
 
 Wait for their response, then:
 - If **Analyze**: Proceed to Step 1 (Understand User Goals) in the Core Workflow
@@ -305,29 +309,37 @@ collection = client.get_or_create_collection(
 )
 ```
 
-### Storing Knowledge (After Analysis)
+### Auto-Ingest (Automatic)
 
-After completing any analysis, ask: "Would you like to store this in your knowledge base?"
+**Every analysis automatically updates the Knowledge Base.** This is not optional - building ambient memory is the core purpose.
 
-If yes, store:
-1. **Chunk the transcript** into ~500 token segments with overlap
-2. **Generate embeddings** using sentence-transformers (automatic with ChromaDB)
-3. **Store with metadata**:
-   - source_url
-   - title
-   - channel/author
-   - duration
-   - analyzed_date
-   - topic_tags
-   - summary (your analysis)
+After completing any analysis:
+1. Save the report to `docs/` (or `docs/pending/` per hooks)
+2. Automatically chunk and embed the new content
+3. Store in ChromaDB with full metadata
 
 ```python
-collection.add(
-    documents=[chunk1, chunk2, ...],
-    metadatas=[{"source": url, "title": title, ...}, ...],
-    ids=[f"{video_id}_chunk_{i}" for i in range(len(chunks))]
-)
+# Auto-ingest after saving report
+import chromadb
+from pathlib import Path
+
+def ingest_to_kb(report_path, metadata):
+    client = chromadb.PersistentClient(path="knowledge_base/chroma_db")
+    collection = client.get_or_create_collection(name="justthegist")
+
+    content = Path(report_path).read_text(encoding="utf-8")
+    chunks = chunk_text(content)  # ~500 token chunks with overlap
+
+    doc_id = Path(report_path).stem[:50]
+    collection.add(
+        documents=chunks,
+        metadatas=[{**metadata, "chunk_index": i} for i in range(len(chunks))],
+        ids=[f"{doc_id}_chunk_{i}" for i in range(len(chunks))]
+    )
+    print(f"Added {len(chunks)} chunks to Knowledge Base")
 ```
+
+Every piece of content analyzed becomes part of your persistent memory.
 
 ### Recall Mode (Querying)
 
@@ -347,6 +359,8 @@ results = collection.query(
    - Offer to dive deeper into any source
 
 ### Ambient Memory Integration
+
+**This is the core purpose of JustTheGist** - not an optional feature. Every analysis enriches your ambient memory, and every future analysis draws from that accumulated knowledge.
 
 **IMPORTANT**: The Knowledge Base is not just for explicit recall - it should be consulted automatically during ALL analyses.
 

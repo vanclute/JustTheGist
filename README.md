@@ -1,8 +1,8 @@
 # JustTheGist
 
-> Feed it anything. Tell it what you want. Get the gist.
+> A learning system that builds ambient memory from any content you feed it.
 
-LLM-agnostic content analyzer and research assistant. Feed it any URL or file to analyze, or let it research a topic for you by finding and synthesizing relevant content. Works with YouTube, podcasts, articles, PDFs, local audio/video. No code—just instruction files for Claude Code, Gemini CLI, Cursor, and more.
+JustTheGist is a persistent knowledge system that learns from every piece of content you analyze. Feed it any URL or file to learn from, or let it research a topic and build understanding from multiple sources. Everything you analyze gets stored in your personal knowledge base—building a richer, more interconnected understanding over time. Works with YouTube, podcasts, articles, PDFs, local audio/video. No code—just instruction files for Claude Code, Gemini CLI, Cursor, and more.
 
 ## The Problem
 
@@ -12,16 +12,16 @@ You find an interesting-looking YouTube video, podcast, or article. It's 45 minu
 
 Give the URL (or file) to your AI coding assistant. Tell it what you're hoping to learn. Get a detailed, tailored analysis in moments—complete with key takeaways, resources mentioned, notable quotes, and an honest assessment of whether the full content is worth your time.
 
-## Three Modes
+## Three Ways to Learn
 
-**Analyze Mode** (passive)
-Give it a URL or file, tell it what you're looking for, get a tailored analysis.
+**Analyze** (Learn from something specific you found)
+Give it a URL or file and what you're hoping to learn. Get a tailored analysis that builds your understanding.
 
-**Research Mode** (active)
-Tell it what topic you want to learn about. It will search, curate, analyze, and synthesize findings from multiple sources.
+**Research** (Explore a topic)
+Tell it what you want to learn about. JustTheGist searches, curates, and analyzes multiple sources—synthesizing findings into comprehensive understanding.
 
-**Recall Mode** (memory)
-Query your personal knowledge base - everything you've previously analyzed, stored for semantic search and instant recall.
+**Recall** (Access your accumulated knowledge)
+Query your personal knowledge base - everything you've analyzed before, semantically searchable for instant recall and connection-making.
 
 ## Supported Content Types
 
@@ -126,11 +126,12 @@ This can reduce costs by 10-20x for extraction tasks while maintaining analysis 
 
 ## Knowledge Base
 
-JustTheGist can build a persistent "brain" from everything you analyze:
+The Knowledge Base isn't a feature—it's the foundation. Every analysis automatically enriches your ambient memory, building a persistent "brain" from everything you analyze:
 
-- **Store** - After any analysis, optionally save insights to your local vector database
-- **Recall** - Semantically search your accumulated knowledge anytime
+- **Automatic Storage** - Every analysis gets stored in your local vector database, no action needed
+- **Recall** - Semantically search your accumulated knowledge anytime and see connections emerge
 - **Cite** - Results include source attribution ("According to [Video] by [Channel]...")
+- **Compound Learning** - Each new analysis draws from everything you've learned before, making future learning richer and more connected
 
 Built on ChromaDB + sentence-transformers. Runs locally, no cloud required, works on CPU.
 

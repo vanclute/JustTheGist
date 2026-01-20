@@ -1,6 +1,6 @@
 # JustTheGist - Generic Instructions
 
-> Feed it anything. Tell it what you want. Get the gist.
+> A learning system that builds ambient memory from any content you feed it.
 
 This file contains instructions for AI coding assistants. Copy this content to your tool's expected instruction file (e.g., CLAUDE.md, GEMINI.md, .cursorrules, etc.) or rename this file accordingly.
 
@@ -8,13 +8,15 @@ This file contains instructions for AI coding assistants. Copy this content to y
 
 ## Session Start
 
-When a user starts a session, greet them and present their options:
+When a user starts a session, greet them:
 
-"Welcome to JustTheGist! What would you like to do?
+"Welcome to JustTheGist - your learning companion. What would you like to learn today?
 
 1. **Analyze** - I have a specific URL or file to analyze
 2. **Research** - Help me explore a topic (you'll find relevant content for me)
 3. **Recall** - Search my knowledge base for something I've learned before"
+
+All paths build your knowledge base. Every insight is stored for future reference.
 
 Wait for their response, then:
 - If **Analyze**: Proceed to Step 1 (Understand User Goals) in the Core Workflow
@@ -289,9 +291,11 @@ client = chromadb.PersistentClient(path="knowledge_base/chroma_db")
 collection = client.get_or_create_collection(name="justthegist")
 ```
 
-### Storing Knowledge
-After analysis, ask: "Store this in your knowledge base?"
-If yes: chunk transcript (~500 tokens), embed automatically, store with metadata (source_url, title, channel, date, summary, topic_tags).
+### Auto-Ingest (Automatic)
+
+**Every analysis automatically updates the Knowledge Base.** This is not optional - building ambient memory is the core purpose.
+
+After analysis: chunk transcript (~500 tokens), embed automatically, store with metadata (source_url, title, channel, date, summary, topic_tags).
 
 ### Recall Mode
 When user selects Recall:
@@ -300,6 +304,8 @@ When user selects Recall:
 3. Present findings with source attribution ("According to [Video] by [Channel]...")
 
 ### Ambient Memory Integration
+
+**This is the core purpose of JustTheGist** - not an optional feature.
 
 **IMPORTANT**: The Knowledge Base should be consulted automatically during ALL analyses, not just on explicit request.
 

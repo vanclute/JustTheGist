@@ -41,3 +41,4 @@ env/
 # Whisper model cache (can be large)
 # Uncomment if you don't want to track models
 # ~/.cache/whisper/
+bootstrap_kb.py
