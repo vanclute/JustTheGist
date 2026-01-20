@@ -52,6 +52,7 @@ JustTheGist builds persistent knowledge from content you discover. Every analysi
 **IMPORTANT - Detect mode first:**
 
 **If the session starts with any of these patterns:**
+- "[Autonomous Session"
 - "Knowledge base contains"
 - "The following tasks have been analyzed"
 - "SELECT AND BEGIN WORKING"
