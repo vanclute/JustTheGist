@@ -35,6 +35,8 @@ This repo includes instruction files for multiple AI coding assistants:
 | `.cursorrules` | [Cursor](https://cursor.sh) |
 | `INSTRUCTIONS.md` | Generic (copy to your tool's expected file) |
 
+**Using a different tool?** If your AI assistant reads from a project-level instruction file (like `YOURTOOL.md`), just copy any of the above and rename it. The instructions are tool-agnostic.
+
 ## Prerequisites
 
 - Python 3.8+
