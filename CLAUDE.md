@@ -609,6 +609,8 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
 
 ### After Completing Research (Autonomous Only)
 
+**CRITICAL: In autonomous mode, these steps are MANDATORY before signaling task_complete. DO NOT skip curiosity analysis.**
+
 1. **Analyze what you just learned** for interesting threads:
    - Concepts mentioned but not yet in your KB
    - Topics referenced by multiple sources
@@ -661,11 +663,19 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
    - Or output it in a format your wrapper expects
    - Or store in a task queue your system uses
 
-4. **Signal completion**:
+4. **ONLY AFTER adding next topic to backlog, signal completion**:
    - **Clautonomous:** `[[SIGNAL:task_complete]]`
    - **Other systems:** Use whatever completion signal your wrapper expects
 
-The wrapper will automatically pick up the next task.
+**Order is critical:**
+1. Complete current research
+2. Identify next interesting topic
+3. Add to backlog
+4. THEN signal task_complete
+
+If you signal completion WITHOUT adding a next topic, the autonomous loop stops.
+
+The wrapper will automatically pick up the next task from the backlog.
 
 ### The Curiosity Loop
 
