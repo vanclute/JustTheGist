@@ -118,6 +118,19 @@ Identify what was provided:
 
 ### Step 3: Extract Content
 
+**⚠️ YouTube Rate Limiting Warning**
+
+YouTube aggressively rate-limits bulk transcript requests:
+- **Process YouTube videos SEQUENTIALLY, not in parallel**
+- Add 2-3 second delays between requests
+- Limit to 3-5 YouTube videos per batch
+- Mix sources: alternate with articles/docs/PDFs
+- If rate-limited, pause 5+ minutes or pivot to alternative sources
+
+DO NOT process multiple YouTube videos in parallel - it triggers rate limiting.
+
+---
+
 #### YouTube Videos
 
 **Step 1: Get metadata** (title, description, channel, duration)

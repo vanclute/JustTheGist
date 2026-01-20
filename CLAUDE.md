@@ -112,6 +112,8 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
 
 ## Dependency Auto-Install
 
+**CRITICAL: Run pre-flight check ONCE in the main session BEFORE delegating any tasks to agents. Do NOT check dependencies in each task agent - that's wasteful and causes parallel install conflicts.**
+
 JustTheGist installs dependencies on-demand. You don't need to manually set anything up - when a tool is needed, it's installed automatically.
 
 ### How It Works
@@ -140,27 +142,29 @@ def ensure_installed(package_name, pip_package=None, check_command=None):
             return False
 ```
 
-### Before Each Content Type
+### Pre-Flight in Main Session
 
-Before attempting to process any content type, ensure dependencies:
+**BEFORE delegating extraction to task agents**, run a single pre-flight check in the main session:
 
-**YouTube/Online Video:**
 ```python
-ensure_installed("yt-dlp")
-ensure_installed("youtube-transcript-api")
+# Run ONCE at session start or before first extraction
+def ensure_all_dependencies():
+    """One-time check for all needed dependencies"""
+    print("Checking dependencies...")
+
+    # Core dependencies for most tasks
+    ensure_installed("yt-dlp")
+    ensure_installed("youtube-transcript-api")
+    ensure_installed("chromadb")
+    ensure_installed("sentence-transformers")
+
+    print("✓ All dependencies ready\n")
+
+# Call this ONCE before spawning any task agents
+ensure_all_dependencies()
 ```
 
-**Local Audio/Video:**
-```python
-ensure_installed("openai-whisper")
-# Note: ffmpeg also needed - user must install via system package manager
-```
-
-**Knowledge Base:**
-```python
-ensure_installed("chromadb")
-ensure_installed("sentence-transformers")
-```
+After pre-flight passes, task agents can assume all dependencies exist.
 
 ### User Experience
 
@@ -192,16 +196,27 @@ Identify what was provided:
 
 ### Step 3: Extract Content
 
+**⚠️ CRITICAL: YouTube Rate Limiting**
+
+YouTube aggressively rate-limits bulk transcript requests. To avoid being blocked:
+
+- **Process YouTube videos SEQUENTIALLY, not in parallel**
+- Add 2-3 second delays between requests: `time.sleep(2)`
+- Limit to 3-5 YouTube videos per batch
+- Mix sources: alternate YouTube with articles/docs/PDFs
+- If rate-limited (429 errors), pause for 5+ minutes
+
+**DO NOT spawn parallel task agents for multiple YouTube videos** - YouTube will block all requests.
+
+For large research tasks, prefer diversifying sources over exhausting YouTube.
+
+---
+
 **IMPORTANT**: Delegate extraction to a low-reasoning task agent (Haiku for Claude, Flash for Gemini, etc.). This is mechanical work that doesn't require deep reasoning.
 
 #### YouTube Videos
 
-Before processing YouTube content, ensure dependencies:
-```python
-# ALWAYS check dependencies first
-ensure_installed("yt-dlp")
-ensure_installed("youtube-transcript-api")
-```
+**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
 
 Delegate to low-reasoning agent (Haiku/Flash/etc.) with this prompt:
 ```
@@ -223,11 +238,7 @@ The agent should:
 
 #### Other Online Videos (non-YouTube)
 
-Before processing non-YouTube videos, ensure dependencies:
-```python
-# ALWAYS check dependencies first
-ensure_installed("yt-dlp")
-```
+**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
 
 Delegate to low-reasoning agent to:
 - Extract metadata using `yt-dlp --dump-json --no-download`
@@ -244,12 +255,7 @@ Delegate to low-reasoning agent to:
 
 #### Local Audio Files
 
-Before processing local audio files, ensure dependencies:
-```python
-# ALWAYS check dependencies first
-ensure_installed("openai-whisper")
-# Note: ffmpeg also needed - user must install via system package manager
-```
+**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
 
 Delegate to low-reasoning agent to:
 - Transcribe using `whisper "filepath" --output_format txt --output_dir .`
@@ -258,12 +264,7 @@ Delegate to low-reasoning agent to:
 
 #### Local Video Files
 
-Before processing local video files, ensure dependencies:
-```python
-# ALWAYS check dependencies first
-ensure_installed("openai-whisper")
-# Note: ffmpeg also needed - user must install via system package manager
-```
+**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
 
 Delegate to low-reasoning agent to:
 - Transcribe using `whisper "filepath" --output_format txt --output_dir .`
@@ -408,6 +409,12 @@ Present the curated list to the user for approval (or let them swap out videos).
 
 ### Processing Phase (Delegate Extraction to Light Model)
 
+**Rate Limit Protection:**
+- Process YouTube videos sequentially with delays
+- If researching 10+ sources, mix YouTube with articles/documentation
+- Consider splitting: 3-4 YouTube videos + 6-7 articles/docs
+- Sequential processing is slower but avoids rate limits
+
 For each approved video:
 1. Extract transcript (light model - mechanical)
 2. Analyze for insights relevant to research goal (standard model)
@@ -528,6 +535,15 @@ This transforms each analysis from isolated summary into **contextual synthesis*
 ## Autonomous Learning (Curiosity Mode)
 
 ### Pre-Flight Check (Required)
+
+**CRITICAL: Run this ONCE in the main session before starting autonomous learning, NOT in each task.**
+
+**Rate Limit Awareness:**
+Autonomous mode may process many videos. To avoid YouTube blocking:
+- Limit YouTube videos to 3-5 per learning session
+- Diversify sources: academic papers, documentation, blog posts
+- Add delays between YouTube requests
+- If rate-limited, pivot to alternative sources automatically
 
 Before starting autonomous mode, verify all core dependencies are installed. This prevents mid-run failures.
 
@@ -690,3 +706,36 @@ From there, curiosity takes over - following threads, exploring tangents, and bu
 - For very long content, focus analysis on sections most relevant to user's goals
 - Whisper transcription quality depends on audio clarity
 - Large files may take time to transcribe locally
+## Clautonomous Integration
+
+This project uses [clautonomous](https://github.com/user/clautonomous) for autonomous execution.
+
+### Workflow
+
+1. **Planning Phase** (regular `claude`):
+   - Discuss goals and requirements
+   - Create spec/PRD documents
+   - Populate `backlog.json` with tasks
+
+2. **Execution Phase** (`claude-auto`):
+   - Wrapper manages context and recovery
+   - Claude picks tasks from backlog
+   - Signals `TASK_COMPLETE` when done
+
+### Key Files
+
+- `backlog.json` - Task queue for autonomous execution
+- `RESUME_*.md` - Session handoff documents (auto-generated)
+- `CONTEXT_*.md` - Detailed context (auto-generated)
+
+### Signaling
+
+When a task is complete:
+```
+[[SIGNAL:task_complete]]
+```
+
+When blocked:
+```
+[[SIGNAL:blocked:reason here]]
+```
