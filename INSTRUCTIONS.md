@@ -360,6 +360,28 @@ This transforms each analysis into **contextual synthesis**.
 
 ## Autonomous Learning (Curiosity Mode)
 
+### Pre-Flight Check (Required)
+
+Before starting autonomous/unattended mode, verify core dependencies are installed:
+
+**Required dependencies:**
+- yt-dlp (online video)
+- youtube-transcript-api (YouTube transcripts)
+- chromadb (knowledge base)
+- sentence-transformers (embeddings)
+
+**Pre-flight process:**
+1. Detect autonomous mode
+2. Check each required dependency
+3. Auto-install any missing ones
+4. If any installation fails, exit with clear error message
+5. If all pass, proceed with autonomous learning
+
+**Failure handling:**
+If pre-flight fails, the system should exit cleanly and inform the user which dependencies couldn't be installed, rather than failing mid-task.
+
+---
+
 When running in autonomous/unattended mode, JustTheGist becomes self-directed. After completing any research, it identifies what to learn next and continues automatically.
 
 ### After Completing Research (Autonomous Only)

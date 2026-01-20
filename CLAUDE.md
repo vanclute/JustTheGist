@@ -527,6 +527,59 @@ This transforms each analysis from isolated summary into **contextual synthesis*
 
 ## Autonomous Learning (Curiosity Mode)
 
+### Pre-Flight Check (Required)
+
+Before starting autonomous mode, verify all core dependencies are installed. This prevents mid-run failures.
+
+```python
+def preflight_check():
+    """Verify core dependencies before autonomous mode starts"""
+    required = [
+        ("yt-dlp", "yt-dlp"),
+        ("youtube-transcript-api", "youtube-transcript-api"),
+        ("chromadb", "chromadb"),
+        ("sentence-transformers", "sentence-transformers")
+    ]
+
+    print("Running pre-flight dependency check...")
+    all_ok = True
+
+    for package, pip_name in required:
+        if not ensure_installed(package, pip_name):
+            print(f"✗ Failed to install {package}")
+            all_ok = False
+        else:
+            print(f"✓ {package} ready")
+
+    if not all_ok:
+        print("\n⚠ Pre-flight check failed. Cannot start autonomous mode.")
+        print("Please install missing dependencies manually:")
+        print("  pip install yt-dlp youtube-transcript-api chromadb sentence-transformers")
+        return False
+
+    print("✓ Pre-flight check passed. Starting autonomous learning...\n")
+    return True
+
+# Run BEFORE autonomous mode starts
+if not preflight_check():
+    exit(1)
+```
+
+**When to run:**
+- Immediately upon detecting autonomous mode
+- Before processing any tasks
+- If any dependency fails to install, exit cleanly with error message
+
+**What gets checked:**
+- yt-dlp (online video)
+- youtube-transcript-api (YouTube transcripts)
+- chromadb (knowledge base)
+- sentence-transformers (embeddings)
+
+Note: openai-whisper is optional (only for local audio/video), so it's not in the required list.
+
+---
+
 When running in autonomous mode, JustTheGist becomes self-directed. After completing any research, it identifies what to learn next and continues automatically.
 
 ### Detecting Autonomous Mode
