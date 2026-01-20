@@ -118,9 +118,25 @@ Read the generated `.txt` file.
 6. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
-Delete any temporary files created during extraction:
-- `.vtt` / `.srt` subtitle files (from yt-dlp)
-- Whisper output `.txt` files (after incorporating into report)
+
+**IMPORTANT**: Always clean up after analysis is complete.
+
+1. **Delete temp files** created during extraction:
+   - `.vtt` / `.srt` subtitle files
+   - Whisper output `.txt` files
+   - Any JSON dumps from yt-dlp
+   - `description.txt` or similar metadata files
+
+2. **Use a temp directory** for intermediate files:
+   - Create `temp/` in the project directory if needed
+   - Direct all extraction output there
+   - Delete the entire `temp/` directory after analysis
+
+3. **Keep only**:
+   - Final reports in `docs/`
+   - User's `config.json`
+
+Never leave working files behind. The project directory should be clean after each analysis.
 
 ---
 

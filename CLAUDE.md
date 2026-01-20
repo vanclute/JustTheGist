@@ -60,57 +60,64 @@ Identify what was provided:
 
 ### Step 3: Extract Content
 
+**IMPORTANT**: Delegate extraction to a low-reasoning task agent (Haiku for Claude, Flash for Gemini, etc.). This is mechanical work that doesn't require deep reasoning.
+
 #### YouTube Videos
 
-**Step 1: Get metadata** (title, description, channel, duration)
-```bash
-python -m yt_dlp --dump-json --no-download "URL"
+Delegate to low-reasoning agent (Haiku/Flash/etc.) with this prompt:
 ```
-Parse the JSON for: `title`, `description`, `channel`, `duration`, `upload_date`
+Extract metadata and transcript from YouTube video: [URL]
 
-**Step 2: Get transcript** (try fast method first)
-```python
-from youtube_transcript_api import YouTubeTranscriptApi
-transcript = YouTubeTranscriptApi.get_transcript("VIDEO_ID")
-text = " ".join([entry['text'] for entry in transcript])
+1. Get metadata using yt-dlp --dump-json --no-download
+2. Extract transcript using youtube-transcript-api
+3. Return: title, description, channel, duration, upload_date, and full transcript text
+
+If transcript unavailable, report the error and suggest Whisper as fallback.
 ```
-Extract the VIDEO_ID from the URL (the part after `v=` or after `youtu.be/`).
 
-**Fallback**: If no transcript available (raises `TranscriptsDisabled` or `NoTranscriptFound`), inform the user and offer to extract audio with Whisper (slower, requires local processing).
+The agent should:
+- Parse JSON for: `title`, `description`, `channel`, `duration`, `upload_date`
+- Extract VIDEO_ID from URL (part after `v=` or `youtu.be/`)
+- Use `YouTubeTranscriptApi` to fetch transcript
+- Join transcript entries into full text
+- Return all extracted data back to main session
 
 #### Other Online Videos (non-YouTube)
-```bash
-# Get metadata
-python -m yt_dlp --dump-json --no-download "URL"
 
-# Get subtitles if available
-python -m yt_dlp --write-auto-sub --sub-lang en --skip-download --output "%(id)s" "URL"
-```
-If no subtitles available, inform user and offer Whisper extraction as fallback.
+Delegate to low-reasoning agent to:
+- Extract metadata using `yt-dlp --dump-json --no-download`
+- Extract subtitles using `yt-dlp --write-auto-sub --sub-lang en`
+- Return metadata and subtitle text, or suggest Whisper fallback if unavailable
 
 #### Web Articles
-Use WebFetch to retrieve and read the article content.
+
+**No delegation needed** - use WebFetch directly in main session (already efficient).
 
 #### PDF Documents
-Use the Read tool directly - it handles PDFs natively.
+
+**No delegation needed** - use Read tool directly in main session (native support).
 
 #### Local Audio Files
-```bash
-# Transcribe with Whisper
-whisper "filepath" --output_format txt --output_dir .
-```
-Read the generated `.txt` file.
+
+Delegate to low-reasoning agent to:
+- Transcribe using `whisper "filepath" --output_format txt --output_dir .`
+- Read generated `.txt` file
+- Return transcript text
 
 #### Local Video Files
-```bash
-# Whisper can extract audio from video automatically
-whisper "filepath" --output_format txt --output_dir .
-```
-Read the generated `.txt` file.
+
+Delegate to low-reasoning agent to:
+- Transcribe using `whisper "filepath" --output_format txt --output_dir .`
+- Read generated `.txt` file
+- Return transcript text
 
 ### Step 4: Analyze and Report
 
-1. **Read** all extracted content (transcript, article text, etc.)
+**IMPORTANT**: This happens in the MAIN SESSION (requires reasoning and judgment).
+
+Once extraction is complete:
+
+1. **Review** all extracted content from the task agent
 2. **Identify** key insights relevant to user's stated goals
 3. **Extract** any resources mentioned (URLs, tools, repos, references)
 4. **Investigate** relevant linked resources using WebFetch if appropriate
@@ -118,9 +125,25 @@ Read the generated `.txt` file.
 6. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
-Delete any temporary files created during extraction:
-- `.vtt` / `.srt` subtitle files (from yt-dlp)
-- Whisper output `.txt` files (after incorporating into report)
+
+**IMPORTANT**: Always clean up after analysis is complete.
+
+1. **Delete temp files** created during extraction:
+   - `.vtt` / `.srt` subtitle files
+   - Whisper output `.txt` files
+   - Any JSON dumps from yt-dlp
+   - `description.txt` or similar metadata files
+
+2. **Use a temp directory** for intermediate files:
+   - Create `temp/` in the project directory if needed
+   - Direct all extraction output there
+   - Delete the entire `temp/` directory after analysis
+
+3. **Keep only**:
+   - Final reports in `docs/`
+   - User's `config.json`
+
+Never leave working files behind. The project directory should be clean after each analysis.
 
 ---
 
@@ -170,23 +193,16 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
-## Model Selection (Optional Optimization)
+## Agent Delegation Pattern
 
-For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+**Standard workflow:**
+- **Extraction** (Step 3) → Delegate to low-reasoning agent with `model: "haiku"`
+- **Analysis** (Step 4) → Main session (inherits your current model)
 
-| Task | Recommended Model |
-|------|-------------------|
-| Transcript extraction | Haiku |
-| Metadata parsing | Haiku |
-| Content analysis | Sonnet |
-| Report generation | Sonnet |
-| Complex technical content | Opus |
-
-To use this optimization with Task agents:
-- Extraction tasks: `model: "haiku"`
-- Analysis tasks: `model: "sonnet"`
-
-If not using Task agents, inherit the default model for all tasks.
+This pattern:
+- Reduces token costs for mechanical work
+- Preserves reasoning capacity for analysis
+- Applies to any AI system with tiered models (Claude Haiku, Gemini Flash, etc.)
 
 ---
 

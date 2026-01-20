@@ -1,6 +1,7 @@
 # JustTheGist generated files
 config.json
 docs/
+temp/
 
 # Temporary transcript/subtitle files
 *.vtt

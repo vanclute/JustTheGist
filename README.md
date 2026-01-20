@@ -93,6 +93,17 @@ No magic, no custom code. Just well-crafted instructions that tell your AI assis
 
 The AI does all the work. The instruction files just tell it how.
 
+## Cost Optimization
+
+JustTheGist automatically optimizes for cost and speed by delegating tasks appropriately:
+
+| Task | Model Tier | Why |
+|------|------------|-----|
+| Extraction (transcripts, metadata) | Light (Haiku/Flash/GPT-4o-mini) | Mechanical work, no reasoning needed |
+| Analysis & report writing | Standard (Sonnet/Pro/GPT-4o) | Requires judgment and synthesis |
+
+This can reduce costs by 10-20x for extraction tasks while maintaining analysis quality. Tools that don't support model switching simply use the default model for everything.
+
 ## Privacy
 
 - All processing happens locally (except AI API calls to your chosen provider)
