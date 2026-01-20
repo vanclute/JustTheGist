@@ -35,61 +35,32 @@ This repo includes instruction files for multiple AI coding assistants:
 | `.cursorrules` | [Cursor](https://cursor.sh) |
 | `INSTRUCTIONS.md` | Generic (copy to your tool's expected file) |
 
-## Quick Start
+## Prerequisites
 
-### 1. Clone or Download
+- Python 3.8+
+- An AI coding assistant (Claude Code, Gemini CLI, Cursor, etc.)
+
+## Quick Start
 
 ```bash
 git clone https://github.com/vanclute/JustTheGist.git
 cd JustTheGist
+claude  # or gemini, cursor, etc.
 ```
 
-### 2. Open with Your AI Tool
+**That's it.** Clone, open, use. Your AI assistant handles all setup automatically.
 
-```bash
-# Claude Code
-claude
-
-# Gemini CLI
-gemini
-
-# Or open the folder in Cursor, Windsurf, etc.
-```
-
-### 3. First Run
-
-On first use, your AI assistant will:
+On first run, your AI assistant will:
 1. Ask which content types you want to analyze
-2. Install only the dependencies you need
-3. Save your preferences
+2. Automatically install only the dependencies you need
+3. Save your preferences for next time
 
-### 4. Analyze Content
-
-Just provide a URL or file path and say what you're looking for:
+Then just give it a URL or file and say what you're looking for:
 
 ```
 Here's a video about prompt engineering: https://youtube.com/watch?v=...
 I want to learn practical tips I can use immediately.
 ```
-
-## Dependencies
-
-Installed automatically based on your needs during first-run setup:
-
-### For YouTube/Online Video
-```bash
-pip install yt-dlp
-```
-
-### For Local Audio/Video Transcription
-```bash
-pip install openai-whisper
-```
-
-Plus [ffmpeg](https://ffmpeg.org/download.html) (install via your system package manager):
-- **Windows**: `winget install ffmpeg` or download from ffmpeg.org
-- **macOS**: `brew install ffmpeg`
-- **Linux**: `apt install ffmpeg` or `dnf install ffmpeg`
 
 ## Output
 
@@ -134,6 +105,21 @@ Ideas for contribution:
 - Instruction files for additional AI tools
 - Improved prompts for specific content types
 - Better handling of edge cases
+
+## What Gets Installed (Automatically)
+
+Curious what dependencies your AI assistant installs? Only what you need:
+
+| Capability | Package | Notes |
+|------------|---------|-------|
+| YouTube/online video | `yt-dlp` | Supports [1000+ sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) |
+| Local audio/video | `openai-whisper` | Also requires ffmpeg (install via system package manager) |
+| Web articles & PDFs | None | Built into your AI tool |
+
+For local audio/video, you'll also need [ffmpeg](https://ffmpeg.org/download.html):
+- **Windows**: `winget install ffmpeg`
+- **macOS**: `brew install ffmpeg`
+- **Linux**: `apt install ffmpeg`
 
 ## License
 
