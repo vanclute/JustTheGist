@@ -18,14 +18,14 @@
 **Use the query_kb.py script with --json flag:**
 
 ```bash
-python query_kb.py "your search terms" 5 --json
+python scripts/query_kb.py "your search terms" 5 --json
 ```
 
 **Example:**
 ```bash
 # User asks: "What does Greg Kamradt recommend for chunking?"
 # AUTOMATICALLY run:
-python query_kb.py "Greg Kamradt chunking recommendations" 5 --json
+python scripts/query_kb.py "Greg Kamradt chunking recommendations" 5 --json
 ```
 
 **The script returns JSON with:**
