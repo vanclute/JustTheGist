@@ -81,8 +81,9 @@ def ingest_document(file_path, force=False):
     content = file_path.read_text(encoding="utf-8")
     metadata = extract_metadata(content, file_path.name)
 
-    # Initialize ChromaDB
-    kb_path = Path(__file__).parent / "knowledge_base" / "chroma_db"
+    # Initialize ChromaDB (use project root's knowledge_base/)
+    project_root = Path(__file__).parent.parent
+    kb_path = project_root / "knowledge_base" / "chroma_db"
     kb_path.mkdir(parents=True, exist_ok=True)
 
     client = chromadb.PersistentClient(path=str(kb_path))
@@ -135,7 +136,7 @@ def ingest_document(file_path, force=False):
         )
         print(f"  - Added to knowledge base")
 
-    print(f"✓ Ingestion complete")
+    print(f"[OK] Ingestion complete")
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:

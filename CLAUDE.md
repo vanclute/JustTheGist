@@ -611,26 +611,35 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
 
 **CRITICAL: In autonomous mode, these steps are MANDATORY before signaling task_complete. DO NOT skip curiosity analysis.**
 
-1. **Analyze what you just learned** for interesting threads:
+1. **Analyze what you just learned** and identify 3-5 interesting threads to explore:
    - Concepts mentioned but not yet in your KB
    - Topics referenced by multiple sources
    - Areas where sources disagreed
    - Connections to existing knowledge
    - Terms you don't fully understand
+   - Tools or frameworks mentioned
+   - Related adjacent topics
 
-2. **Pick the most compelling thread** based on:
+2. **Rank them by interestingness**:
    - Frequency of mention (more = more interesting)
    - Relevance to existing knowledge
    - Potential to fill gaps or deepen understanding
+   - Connections to multiple areas you already know
+   - Practical applicability
 
-3. **Queue the next topic** (method depends on your automation system):
+3. **Queue ALL interesting topics to the backlog** (most interesting first):
 
    **If using clautonomous** (backlog.json exists):
    ```python
    import json
    from pathlib import Path
 
-   def add_learning_task(topic: str, reason: str):
+   def add_learning_tasks(topics_with_reasons):
+       """Add multiple learning tasks to backlog at once
+
+       Args:
+           topics_with_reasons: List of (topic, reason) tuples
+       """
        backlog_path = Path("backlog.json")
        if not backlog_path.exists():
            return  # Not using clautonomous
@@ -642,24 +651,34 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
        learn_ids = [int(id.split("-")[1]) for id in existing_ids if id.startswith("LEARN-")]
        next_num = max(learn_ids, default=0) + 1
 
-       new_task = {
-           "id": f"LEARN-{next_num:03d}",
-           "description": f"Research: {topic}",
-           "reason": reason,
-           "status": "queued",
-           "type": "learning"
-       }
-
-       data.setdefault("tasks", []).append(new_task)
+       # Add all topics
+       for topic, reason in topics_with_reasons:
+           new_task = {
+               "id": f"LEARN-{next_num:03d}",
+               "description": f"Research: {topic}",
+               "reason": reason,
+               "status": "queued",
+               "type": "learning"
+           }
+           data.setdefault("tasks", []).append(new_task)
+           print(f"Added to backlog: {new_task['id']} - {topic}")
+           next_num += 1
 
        with open(backlog_path, "w", encoding="utf-8") as f:
            json.dump(data, f, indent=2)
 
-       print(f"Added to backlog: {new_task['id']} - {topic}")
+   # Example: Add 3-5 topics discovered from current research
+   interesting_topics = [
+       ("hybrid search strategies for RAG", "Mentioned in 3 videos about vector DBs"),
+       ("reranking models", "Multiple sources discussed relevance reranking"),
+       ("chunking strategies comparison", "Conflicting opinions on optimal chunk size"),
+       ("embedding model selection", "Key decision point, needs deeper understanding")
+   ]
+   add_learning_tasks(interesting_topics)
    ```
 
    **If using another automation system:**
-   - Write next topic to `next_topic.txt`
+   - Write all topics to `next_topics.txt` (one per line)
    - Or output it in a format your wrapper expects
    - Or store in a task queue your system uses
 

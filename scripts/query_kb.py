@@ -22,7 +22,9 @@ def query_kb(query_text, n_results=5, json_output=False):
         print("Error: chromadb not installed. Run: pip install chromadb", file=sys.stderr)
         sys.exit(1)
 
-    kb_path = Path(__file__).parent / "knowledge_base" / "chroma_db"
+    # Use project root's knowledge_base/
+    project_root = Path(__file__).parent.parent
+    kb_path = project_root / "knowledge_base" / "chroma_db"
     if not kb_path.exists():
         print(f"Error: Knowledge base not found at {kb_path}", file=sys.stderr)
         print("Run some analyses first to populate the knowledge base.", file=sys.stderr)
