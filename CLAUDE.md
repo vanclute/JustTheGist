@@ -61,8 +61,9 @@ JustTheGist builds persistent knowledge from content you discover. Every analysi
 - "Work on task"
 
 **Then you are in autonomous mode:**
-- Proceed directly with the task
+- **Follow the instructions in the initial prompt EXACTLY**
 - Do NOT show the greeting below
+- Do NOT read backlog.json - work only with tasks/info provided in the prompt
 - Signal `[[SIGNAL:task_complete]]` when done
 
 **Otherwise (interactive mode):**
