@@ -47,3 +47,5 @@ query_kb.py
 ingest_report.py
 raw_results.txt
 search_results.json
+backlog.json
+.clautonomous
