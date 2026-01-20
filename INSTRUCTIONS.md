@@ -136,12 +136,13 @@ Read the generated `.txt` file.
 
 ### Step 4: Analyze and Report
 
-1. **Read** all extracted content (transcript, article text, etc.)
-2. **Identify** key insights relevant to user's stated goals
-3. **Extract** any resources mentioned (URLs, tools, repos, references)
-4. **Investigate** relevant linked resources if appropriate
-5. **Generate** a detailed report in `docs/` with filename based on content title
-6. **Present** a high-level summary to the user immediately
+1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge. Keep relevant context for enriching the analysis.
+2. **Read** all extracted content (transcript, article text, etc.)
+3. **Identify** key insights relevant to user's stated goals
+4. **Extract** any resources mentioned (URLs, tools, repos, references)
+5. **Investigate** relevant linked resources if appropriate
+6. **Generate** a detailed report in `docs/` with filename based on content title
+7. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
 
@@ -298,8 +299,26 @@ When user selects Recall:
 2. Query: `collection.query(query_texts=[question], n_results=5)`
 3. Present findings with source attribution ("According to [Video] by [Channel]...")
 
-### Integration
-Before new analyses, optionally check KB for related prior knowledge.
+### Ambient Memory Integration
+
+**IMPORTANT**: The Knowledge Base should be consulted automatically during ALL analyses, not just on explicit request.
+
+**Before analyzing any content:**
+- Extract key topics from title/description
+- Query KB for related prior knowledge
+- Keep relevant context available for the analysis
+
+**During analysis:**
+- Note connections: "This aligns with / contradicts [prior source]..."
+- Identify patterns across sources
+- Flag when new info updates previous understanding
+
+**In the final report:**
+- Include "Connections to Prior Knowledge" section when relevant
+- Cross-reference related content analyzed before
+- Note consensus vs. conflicting viewpoints
+
+This transforms each analysis into **contextual synthesis**.
 
 ---
 

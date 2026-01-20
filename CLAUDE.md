@@ -139,12 +139,13 @@ Delegate to low-reasoning agent to:
 
 Once extraction is complete:
 
-1. **Review** all extracted content from the task agent
-2. **Identify** key insights relevant to user's stated goals
-3. **Extract** any resources mentioned (URLs, tools, repos, references)
-4. **Investigate** relevant linked resources using WebFetch if appropriate
-5. **Generate** a detailed report in `docs/` with filename based on content title
-6. **Present** a high-level summary to the user immediately
+1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge using keywords from the content. Keep relevant context available for enriching the analysis.
+2. **Review** all extracted content from the task agent
+3. **Identify** key insights relevant to user's stated goals
+4. **Extract** any resources mentioned (URLs, tools, repos, references)
+5. **Investigate** relevant linked resources using WebFetch if appropriate
+6. **Generate** a detailed report in `docs/` with filename based on content title
+7. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
 
@@ -345,11 +346,32 @@ results = collection.query(
    - Cite sources: "According to [Video Title] by [Channel]..."
    - Offer to dive deeper into any source
 
-### Integration with Analyze/Research
+### Ambient Memory Integration
 
-Optionally, before starting a new analysis:
-- Search KB for related prior knowledge
-- Mention: "I found X related items in your knowledge base. Want me to incorporate that context?"
+**IMPORTANT**: The Knowledge Base is not just for explicit recall - it should be consulted automatically during ALL analyses.
+
+**Before analyzing any content:**
+1. Extract key topics/keywords from the content title and description
+2. Query the KB for related prior knowledge:
+   ```python
+   related = collection.query(
+       query_texts=[f"{title} {description_snippet}"],
+       n_results=5
+   )
+   ```
+3. Keep relevant prior knowledge in context for the analysis
+
+**During analysis:**
+- Note connections to prior knowledge: "This aligns with / contradicts what [Source] discussed..."
+- Identify patterns across sources
+- Flag when new information updates or challenges previous understanding
+
+**In the final report:**
+- Include a "Connections to Prior Knowledge" section when relevant
+- Cross-reference related content you've analyzed before
+- Note consensus vs. conflicting viewpoints across your knowledge base
+
+This transforms each analysis from isolated summary into **contextual synthesis**.
 
 ---
 
