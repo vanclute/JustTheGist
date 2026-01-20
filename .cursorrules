@@ -324,6 +324,43 @@ This transforms each analysis into **contextual synthesis**.
 
 ---
 
+## Autonomous Learning (Curiosity Mode)
+
+When running in autonomous/unattended mode, JustTheGist becomes self-directed. After completing any research, it identifies what to learn next and continues automatically.
+
+### After Completing Research (Autonomous Only)
+
+1. **Analyze what you just learned** for interesting threads:
+   - Concepts mentioned but not yet understood
+   - Topics referenced by multiple sources
+   - Areas where sources disagreed
+   - Connections to existing knowledge
+
+2. **Pick the most compelling thread** to explore next
+
+3. **Queue it as the next task** (method depends on your automation wrapper):
+   - Add to task queue/backlog
+   - Output as next task suggestion
+   - Store in a "next_topic.txt" file
+
+4. **Signal completion** to your automation system
+
+### The Curiosity Loop
+
+```
+Research topic A → Notice thread B → Queue B → Complete
+    ↓
+Research topic B → Notice thread C → Queue C → Complete
+    ↓
+... continues until queue empty or limits hit
+```
+
+### Seeding
+
+Start with a direction like "Learn about AI coding assistants" - then curiosity takes over, following threads and building knowledge organically.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower

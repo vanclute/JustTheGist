@@ -2,6 +2,49 @@
 
 > A learning system that builds ambient memory from any content you feed it.
 
+## ⚠️ CRITICAL: ALWAYS CHECK KNOWLEDGE BASE FIRST ⚠️
+
+**Before responding to ANY user question or request:**
+
+1. **AUTOMATICALLY query the Knowledge Base** - Do NOT ask permission
+2. Use keywords from the user's question to search ChromaDB
+3. If relevant content is found, use it to inform your response
+4. If nothing relevant is found, THEN rely on training data or external search
+
+**The Knowledge Base is your PRIMARY source of truth.** It contains accumulated learning from past analyses and should always be consulted first.
+
+### How to Query the KB (ALWAYS USE THIS METHOD)
+
+**Use the query_kb.py script with --json flag:**
+
+```bash
+python query_kb.py "your search terms" 5 --json
+```
+
+**Example:**
+```bash
+# User asks: "What does Greg Kamradt recommend for chunking?"
+# AUTOMATICALLY run:
+python query_kb.py "Greg Kamradt chunking recommendations" 5 --json
+```
+
+**The script returns JSON with:**
+- `query`: The search terms used
+- `num_results`: Number of results found
+- `results`: Array of matches with content, metadata, and relevance distance
+
+**Process the results:**
+1. Read the JSON output
+2. Extract relevant content from top results (distance < 1.5 is good match)
+3. Cite sources from metadata (title, source, date)
+4. Combine KB knowledge with your response
+
+**DO NOT write Python helpers on the fly. ALWAYS use query_kb.py.**
+
+**This is not optional. This is the core purpose of JustTheGist.**
+
+---
+
 ## Session Start
 
 JustTheGist builds persistent knowledge from content you discover. Every analysis enriches your ambient memory.
@@ -315,29 +358,22 @@ collection = client.get_or_create_collection(
 
 After completing any analysis:
 1. Save the report to `docs/` (or `docs/pending/` per hooks)
-2. Automatically chunk and embed the new content
-3. Store in ChromaDB with full metadata
+2. **Automatically ingest using ingest_report.py**
+3. Verify ingestion succeeded
 
-```python
-# Auto-ingest after saving report
-import chromadb
-from pathlib import Path
+**Use the ingest_report.py script:**
 
-def ingest_to_kb(report_path, metadata):
-    client = chromadb.PersistentClient(path="knowledge_base/chroma_db")
-    collection = client.get_or_create_collection(name="justthegist")
-
-    content = Path(report_path).read_text(encoding="utf-8")
-    chunks = chunk_text(content)  # ~500 token chunks with overlap
-
-    doc_id = Path(report_path).stem[:50]
-    collection.add(
-        documents=chunks,
-        metadatas=[{**metadata, "chunk_index": i} for i in range(len(chunks))],
-        ids=[f"{doc_id}_chunk_{i}" for i in range(len(chunks))]
-    )
-    print(f"Added {len(chunks)} chunks to Knowledge Base")
+```bash
+# After saving report to docs/MyReport.md
+python ingest_report.py docs/MyReport.md
 ```
+
+The script will:
+- Chunk the content into ~500 word pieces with overlap
+- Add all chunks to ChromaDB with metadata
+- Report how many chunks were added
+
+**CRITICAL: Do NOT mark "Add to Knowledge Base" task as complete unless you've actually run the ingestion script and verified it succeeded.**
 
 Every piece of content analyzed becomes part of your persistent memory.
 
@@ -360,19 +396,29 @@ results = collection.query(
 
 ### Ambient Memory Integration
 
-**This is the core purpose of JustTheGist** - not an optional feature. Every analysis enriches your ambient memory, and every future analysis draws from that accumulated knowledge.
+**This is the core purpose of JustTheGist** - not an optional feature. Every analysis enriches your ambient memory, and every future interaction draws from that accumulated knowledge.
 
-**IMPORTANT**: The Knowledge Base is not just for explicit recall - it should be consulted automatically during ALL analyses.
+**CRITICAL: The Knowledge Base is automatically consulted for ALL interactions:**
+- User asks a question → Query KB first
+- User requests analysis → Query KB for related prior knowledge
+- User mentions a topic/person → Query KB for context
+- **NEVER ask permission** to check the KB - it's automatic
 
-**Before analyzing any content:**
-1. Extract key topics/keywords from the content title and description
-2. Query the KB for related prior knowledge:
+**Before ANY response:**
+1. Extract key topics/keywords from the user's input
+2. Query the KB for related content:
    ```python
    related = collection.query(
-       query_texts=[f"{title} {description_snippet}"],
+       query_texts=[user_input_keywords],
        n_results=5
    )
    ```
+3. If relevant content found → Use it in your response with citations
+4. If nothing found → Proceed with training data or external search
+
+**Before analyzing any content:**
+1. Extract key topics/keywords from the content title and description
+2. Query the KB for related prior knowledge
 3. Keep relevant prior knowledge in context for the analysis
 
 **During analysis:**
@@ -386,6 +432,110 @@ results = collection.query(
 - Note consensus vs. conflicting viewpoints across your knowledge base
 
 This transforms each analysis from isolated summary into **contextual synthesis**.
+
+---
+
+## Autonomous Learning (Curiosity Mode)
+
+When running in autonomous mode, JustTheGist becomes self-directed. After completing any research, it identifies what to learn next and continues automatically.
+
+### Detecting Autonomous Mode
+
+Check hook output for autonomous mode indicators. If using **clautonomous**, look for:
+```
+[AUTONOMOUS MODE - Signal TASK_COMPLETE when done]
+```
+
+If present (or if running under any autonomous wrapper), curiosity mode is engaged.
+
+### After Completing Research (Autonomous Only)
+
+1. **Analyze what you just learned** for interesting threads:
+   - Concepts mentioned but not yet in your KB
+   - Topics referenced by multiple sources
+   - Areas where sources disagreed
+   - Connections to existing knowledge
+   - Terms you don't fully understand
+
+2. **Pick the most compelling thread** based on:
+   - Frequency of mention (more = more interesting)
+   - Relevance to existing knowledge
+   - Potential to fill gaps or deepen understanding
+
+3. **Queue the next topic** (method depends on your automation system):
+
+   **If using clautonomous** (backlog.json exists):
+   ```python
+   import json
+   from pathlib import Path
+
+   def add_learning_task(topic: str, reason: str):
+       backlog_path = Path("backlog.json")
+       if not backlog_path.exists():
+           return  # Not using clautonomous
+
+       with open(backlog_path, "r", encoding="utf-8") as f:
+           data = json.load(f)
+
+       existing_ids = [t.get("id", "") for t in data.get("tasks", [])]
+       learn_ids = [int(id.split("-")[1]) for id in existing_ids if id.startswith("LEARN-")]
+       next_num = max(learn_ids, default=0) + 1
+
+       new_task = {
+           "id": f"LEARN-{next_num:03d}",
+           "description": f"Research: {topic}",
+           "reason": reason,
+           "status": "queued",
+           "type": "learning"
+       }
+
+       data.setdefault("tasks", []).append(new_task)
+
+       with open(backlog_path, "w", encoding="utf-8") as f:
+           json.dump(data, f, indent=2)
+
+       print(f"Added to backlog: {new_task['id']} - {topic}")
+   ```
+
+   **If using another automation system:**
+   - Write next topic to `next_topic.txt`
+   - Or output it in a format your wrapper expects
+   - Or store in a task queue your system uses
+
+4. **Signal completion**:
+   - **Clautonomous:** `[[SIGNAL:task_complete]]`
+   - **Other systems:** Use whatever completion signal your wrapper expects
+
+The wrapper will automatically pick up the next task.
+
+### The Curiosity Loop
+
+```
+Research topic A
+    ↓
+Notice interesting thread B
+    ↓
+Add "Research: B" to backlog
+    ↓
+Signal task_complete
+    ↓
+Wrapper picks up B from backlog
+    ↓
+Research topic B
+    ↓
+Notice interesting thread C
+    ↓
+... continues until backlog empty or limits hit
+```
+
+### Seeding the Learning
+
+The user starts autonomous mode with an initial direction:
+```
+Learn about AI coding assistants and related tooling.
+```
+
+From there, curiosity takes over - following threads, exploring tangents, and building comprehensive knowledge organically.
 
 ---
 
