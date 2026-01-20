@@ -2,6 +2,21 @@
 
 > Feed it anything. Tell it what you want. Get the gist.
 
+## Session Start
+
+When a user starts a session, greet them and present their options:
+
+"Welcome to JustTheGist! What would you like to do?
+
+1. **Analyze** - I have a specific URL or file to analyze
+2. **Research** - Help me explore a topic (you'll find relevant content for me)"
+
+Wait for their response, then:
+- If **Analyze**: Proceed to Step 1 (Understand User Goals) in the Core Workflow
+- If **Research**: Proceed to the Research Mode workflow below
+
+---
+
 ## First-Run Onboarding
 
 On first use, check if `config.json` exists in this directory. If not, run onboarding:
@@ -203,6 +218,66 @@ This pattern:
 - Reduces token costs for mechanical work
 - Preserves reasoning capacity for analysis
 - Applies to any AI system with tiered models (Claude Haiku, Gemini Flash, etc.)
+
+---
+
+## Research Mode
+
+When the user chooses Research mode, conduct a structured discovery conversation:
+
+### Discovery Phase (Main Session)
+
+Ask these questions to build a research profile:
+
+1. **Topic**: "What topic do you want to research?"
+2. **Goal**: "What specifically are you hoping to learn or understand about this?"
+3. **Depth**: "What level? (Beginner overview / Intermediate / Deep technical)"
+4. **Preferences** (optional):
+   - Minimum video length? (skip short clips)
+   - Maximum video length? (avoid 3-hour podcasts)
+   - Prefer recent content? (last year, last month, any time)
+   - Specific channels to include or exclude?
+5. **Scope**: "How many videos should I find and analyze? (5 / 10 / 20)"
+
+Summarize the research profile and confirm before proceeding.
+
+### Search Phase (Delegate to Light Model)
+
+Use a task agent with the lightest model (Haiku/Flash/etc.) to:
+
+```
+Search YouTube for: [topic keywords]
+Return up to [N * 2] candidates with: title, channel, duration, view count, upload date, description snippet
+
+Use: yt-dlp "ytsearch[N*2]:[keywords]" --dump-json --flat-playlist
+```
+
+### Curation Phase (Delegate to Standard Model)
+
+Use a task agent with standard model (Sonnet/Pro/etc.) to:
+- Score each candidate for relevance to the user's stated goal
+- Filter by user's constraints (length, recency, etc.)
+- Return the top N videos ranked by relevance
+
+Present the curated list to the user for approval (or let them swap out videos).
+
+### Processing Phase (Delegate Extraction to Light Model)
+
+For each approved video:
+1. Extract transcript (light model - mechanical)
+2. Analyze for insights relevant to research goal (standard model)
+3. Compile per-video summaries
+
+### Synthesis Phase (Main Session)
+
+Back in the main session, synthesize all findings:
+- Cross-reference insights across videos
+- Identify consensus views vs. conflicting opinions
+- Highlight the most valuable sources
+- Note any gaps in coverage
+- Generate comprehensive research report in `docs/`
+
+Present executive summary to user with link to full report.
 
 ---
 

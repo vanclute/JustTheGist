@@ -2,7 +2,7 @@
 
 > Feed it anything. Tell it what you want. Get the gist.
 
-LLM-agnostic content analyzer. Feed it any URL or file (YouTube, podcasts, articles, PDFs, local audio/video), tell it what you're looking for, get a tailored gist. No code—just instruction files for Claude Code, Gemini CLI, Cursor, and more.
+LLM-agnostic content analyzer and research assistant. Feed it any URL or file to analyze, or let it research a topic for you by finding and synthesizing relevant content. Works with YouTube, podcasts, articles, PDFs, local audio/video. No code—just instruction files for Claude Code, Gemini CLI, Cursor, and more.
 
 ## The Problem
 
@@ -11,6 +11,19 @@ You find an interesting-looking YouTube video, podcast, or article. It's 45 minu
 ## The Solution
 
 Give the URL (or file) to your AI coding assistant. Tell it what you're hoping to learn. Get a detailed, tailored analysis in moments—complete with key takeaways, resources mentioned, notable quotes, and an honest assessment of whether the full content is worth your time.
+
+## Two Modes
+
+**Analyze Mode** (passive)
+Give it a URL or file, tell it what you're looking for, get a tailored analysis.
+
+**Research Mode** (active)
+Tell it what topic you want to learn about. It will:
+1. Ask clarifying questions to understand your goals
+2. Search YouTube for relevant content
+3. Curate the best candidates
+4. Analyze each one
+5. Synthesize findings into a comprehensive research report
 
 ## Supported Content Types
 
@@ -74,11 +87,16 @@ You get two things:
 
 ## Example Use Cases
 
+**Analyze Mode**
 - "I found this 2-hour conference talk. Does it cover anything about testing strategies?"
 - "Here's a podcast episode. Extract any book recommendations they mention."
 - "I have this PDF whitepaper. Summarize the key findings relevant to distributed systems."
 - "Here's a YouTube tutorial. I just need to know how they handle authentication."
 - "I recorded a meeting. What action items were assigned to the engineering team?"
+
+**Research Mode**
+- "Research the current state of AI coding assistants - find me 10 videos and tell me what the consensus is"
+- "I want to learn about home automation. Find beginner-friendly content and summarize the key concepts."
 
 ## How It Works
 

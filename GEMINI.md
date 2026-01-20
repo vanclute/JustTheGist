@@ -2,6 +2,21 @@
 
 > Feed it anything. Tell it what you want. Get the gist.
 
+## Session Start
+
+When a user starts a session, greet them and present their options:
+
+"Welcome to JustTheGist! What would you like to do?
+
+1. **Analyze** - I have a specific URL or file to analyze
+2. **Research** - Help me explore a topic (you'll find relevant content for me)"
+
+Wait for their response, then:
+- If **Analyze**: Proceed to Step 1 (Understand User Goals) in the Core Workflow
+- If **Research**: Proceed to the Research Mode workflow below
+
+---
+
 ## First-Run Onboarding
 
 On first use, check if `config.json` exists in this directory. If not, run onboarding:
@@ -199,6 +214,55 @@ For efficiency, use lighter models for mechanical tasks and reserve heavier mode
 | Complex technical content | Ultra |
 
 If your Gemini CLI setup supports model switching, use lighter models for extraction and standard models for analysis. Otherwise, inherit the default model for all tasks.
+
+---
+
+## Research Mode
+
+When the user chooses Research mode, conduct a structured discovery conversation:
+
+### Discovery Phase (Main Session)
+
+Ask these questions to build a research profile:
+
+1. **Topic**: "What topic do you want to research?"
+2. **Goal**: "What specifically are you hoping to learn or understand about this?"
+3. **Depth**: "What level? (Beginner overview / Intermediate / Deep technical)"
+4. **Preferences** (optional):
+   - Minimum/maximum video length?
+   - Prefer recent content?
+   - Specific channels to include or exclude?
+5. **Scope**: "How many videos should I find and analyze? (5 / 10 / 20)"
+
+Summarize the research profile and confirm before proceeding.
+
+### Search Phase (Light Model - Flash)
+
+Search YouTube for candidates:
+```
+yt-dlp "ytsearch[N*2]:[keywords]" --dump-json --flat-playlist
+```
+Return top candidates with: title, channel, duration, view count, description snippet.
+
+### Curation Phase (Standard Model - Pro)
+
+Score candidates for relevance to user's goal, filter by constraints, return top N ranked by relevance. Present to user for approval.
+
+### Processing Phase
+
+For each approved video:
+1. Extract transcript (Flash - mechanical)
+2. Analyze for insights (Pro - reasoning)
+3. Compile per-video summaries
+
+### Synthesis Phase (Main Session)
+
+Synthesize all findings:
+- Cross-reference insights across videos
+- Identify consensus vs. conflicting views
+- Generate comprehensive research report in `docs/`
+
+Present executive summary to user.
 
 ---
 
