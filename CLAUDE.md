@@ -51,8 +51,16 @@ JustTheGist builds persistent knowledge from content you discover. Every analysi
 
 **IMPORTANT - Detect mode first:**
 
-**If the session starts with a task prompt** (like "CONTEXT-AWARE TASK SELECTION", "Research:", "Work on task", etc.):
-- **You are in autonomous mode** - proceed directly with the task
+**If the session starts with any of these patterns:**
+- "Knowledge base contains"
+- "The following tasks have been analyzed"
+- "SELECT AND BEGIN WORKING"
+- "CONTEXT-AWARE TASK SELECTION"
+- "Research:"
+- "Work on task"
+
+**Then you are in autonomous mode:**
+- Proceed directly with the task
 - Do NOT show the greeting below
 - Signal `[[SIGNAL:task_complete]]` when done
 
