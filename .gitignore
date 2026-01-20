@@ -39,6 +39,11 @@ env/
 .env
 
 # Whisper model cache (can be large)
-# Uncomment if you don't want to track models
 # ~/.cache/whisper/
+
+# Generated test/utility artifacts (do NOT commit)
 bootstrap_kb.py
+query_kb.py
+ingest_report.py
+raw_results.txt
+search_results.json
