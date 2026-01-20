@@ -8,7 +8,7 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
 
 1. Greet the user and explain JustTheGist can analyze various content types
 2. Ask which capabilities they want to enable:
-   - **YouTube/online videos** (requires: yt-dlp)
+   - **YouTube/online videos** (requires: youtube-transcript-api, yt-dlp)
    - **Local audio files** (requires: openai-whisper, ffmpeg)
    - **Local video files** (requires: openai-whisper, ffmpeg)
    - **Web articles & PDFs** (no dependencies - always available)
@@ -16,7 +16,7 @@ On first use, check if `config.json` exists in this directory. If not, run onboa
 3. Install only the dependencies they need:
    ```bash
    # For YouTube/online video
-   pip install yt-dlp
+   pip install youtube-transcript-api yt-dlp
 
    # For local audio/video transcription
    pip install openai-whisper
@@ -60,16 +60,33 @@ Identify what was provided:
 
 ### Step 3: Extract Content
 
-#### YouTube / Online Video
-```bash
-# Get metadata (title, description, channel, duration)
-python -m yt_dlp --dump-json --no-download "URL"
+#### YouTube Videos
 
-# Get transcript
-python -m yt_dlp --write-auto-sub --sub-lang en --skip-download --output "%(id)s" "URL"
+**Step 1: Get metadata** (title, description, channel, duration)
+```bash
+python -m yt_dlp --dump-json --no-download "URL"
 ```
 Parse the JSON for: `title`, `description`, `channel`, `duration`, `upload_date`
-Read the generated `.vtt` file for transcript content.
+
+**Step 2: Get transcript** (try fast method first)
+```python
+from youtube_transcript_api import YouTubeTranscriptApi
+transcript = YouTubeTranscriptApi.get_transcript("VIDEO_ID")
+text = " ".join([entry['text'] for entry in transcript])
+```
+Extract the VIDEO_ID from the URL (the part after `v=` or after `youtu.be/`).
+
+**Fallback**: If no transcript available (raises `TranscriptsDisabled` or `NoTranscriptFound`), inform the user and offer to extract audio with Whisper (slower, requires local processing).
+
+#### Other Online Videos (non-YouTube)
+```bash
+# Get metadata
+python -m yt_dlp --dump-json --no-download "URL"
+
+# Get subtitles if available
+python -m yt_dlp --write-auto-sub --sub-lang en --skip-download --output "%(id)s" "URL"
+```
+If no subtitles available, inform user and offer Whisper extraction as fallback.
 
 #### Web Articles
 Fetch the URL and read the article content.
@@ -101,9 +118,8 @@ Read the generated `.txt` file.
 6. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
-Delete temporary files:
-- `.vtt` subtitle files
-- `.srt` subtitle files
+Delete any temporary files created during extraction:
+- `.vtt` / `.srt` subtitle files (from yt-dlp)
 - Whisper output `.txt` files (after incorporating into report)
 
 ---
@@ -156,8 +172,9 @@ yt-dlp supports 1000+ sites including:
 
 ## Notes
 
+- YouTube transcripts are fetched instantly via API; other sites may be slower
 - Auto-generated transcripts may contain errors; use context to interpret
-- Some videos may not have transcripts available (try `--write-sub` for manual captions)
+- If no transcript is available, offer Whisper as a fallback (requires user consent as it's slower)
 - For very long content, focus analysis on sections most relevant to user's goals
 - Whisper transcription quality depends on audio clarity
 - Large files may take time to transcribe locally

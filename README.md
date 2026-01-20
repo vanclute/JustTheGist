@@ -114,7 +114,8 @@ Curious what dependencies your AI assistant installs? Only what you need:
 
 | Capability | Package | Notes |
 |------------|---------|-------|
-| YouTube/online video | `yt-dlp` | Supports [1000+ sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) |
+| YouTube videos | `youtube-transcript-api` + `yt-dlp` | Instant transcript fetch; yt-dlp for metadata |
+| Other online video | `yt-dlp` | Supports [1000+ sites](https://github.com/yt-dlp/yt-dlp/blob/master/supportedsites.md) |
 | Local audio/video | `openai-whisper` | Also requires ffmpeg (install via system package manager) |
 | Web articles & PDFs | None | Built into your AI tool |
 
