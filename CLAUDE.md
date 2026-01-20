@@ -170,6 +170,26 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
+## Model Selection (Optional Optimization)
+
+For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+
+| Task | Recommended Model |
+|------|-------------------|
+| Transcript extraction | Haiku |
+| Metadata parsing | Haiku |
+| Content analysis | Sonnet |
+| Report generation | Sonnet |
+| Complex technical content | Opus |
+
+To use this optimization with Task agents:
+- Extraction tasks: `model: "haiku"`
+- Analysis tasks: `model: "sonnet"`
+
+If not using Task agents, inherit the default model for all tasks.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower

@@ -170,6 +170,22 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
+## Model Selection (Optional Optimization)
+
+For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+
+| Task | Recommended Model |
+|------|-------------------|
+| Transcript extraction | Lighter/faster model |
+| Metadata parsing | Lighter/faster model |
+| Content analysis | Standard model |
+| Report generation | Standard model |
+| Complex technical content | Most capable model |
+
+If Cursor supports model switching in your configuration, use lighter models for extraction and standard models for analysis. Otherwise, inherit the default model for all tasks.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower

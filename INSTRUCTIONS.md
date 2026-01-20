@@ -174,6 +174,22 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
+## Model Selection (Optional Optimization)
+
+For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+
+| Task | Model Tier |
+|------|------------|
+| Transcript extraction | Light (e.g., Haiku, GPT-4o-mini, Flash) |
+| Metadata parsing | Light |
+| Content analysis | Standard (e.g., Sonnet, GPT-4o, Pro) |
+| Report generation | Standard |
+| Complex technical content | Heavy (e.g., Opus, o1, Ultra) |
+
+If your AI tool supports model switching or Task agents with model selection, use lighter models for mechanical extraction tasks and standard models for analysis. Otherwise, inherit the default model for all tasks.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower

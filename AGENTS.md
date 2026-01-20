@@ -170,6 +170,22 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
+## Model Selection (Optional Optimization)
+
+For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+
+| Task | Recommended Model |
+|------|-------------------|
+| Transcript extraction | GPT-4o-mini |
+| Metadata parsing | GPT-4o-mini |
+| Content analysis | GPT-4o |
+| Report generation | GPT-4o |
+| Complex technical content | o1 |
+
+If your setup supports model switching, use lighter models for extraction and standard models for analysis. Otherwise, inherit the default model for all tasks.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower

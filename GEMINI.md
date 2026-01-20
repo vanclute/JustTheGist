@@ -170,6 +170,22 @@ yt-dlp supports 1000+ sites including:
 
 ---
 
+## Model Selection (Optional Optimization)
+
+For efficiency, use lighter models for mechanical tasks and reserve heavier models for analysis:
+
+| Task | Recommended Model |
+|------|-------------------|
+| Transcript extraction | Flash |
+| Metadata parsing | Flash |
+| Content analysis | Pro |
+| Report generation | Pro |
+| Complex technical content | Ultra |
+
+If your Gemini CLI setup supports model switching, use lighter models for extraction and standard models for analysis. Otherwise, inherit the default model for all tasks.
+
+---
+
 ## Notes
 
 - YouTube transcripts are fetched instantly via API; other sites may be slower
