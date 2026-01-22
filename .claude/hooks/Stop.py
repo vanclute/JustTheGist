@@ -16,8 +16,9 @@ def main():
         data = json.load(f)
 
     tasks = data.get("tasks", [])
-    completed = [t for t in tasks if t.get("status") == "completed"]
-    active = [t for t in tasks if t.get("status") != "completed"]
+    # Accept both "done" and "completed" status
+    completed = [t for t in tasks if t.get("status") in ("done", "completed")]
+    active = [t for t in tasks if t.get("status") not in ("done", "completed")]
 
     if not completed:
         sys.exit(0)  # Nothing to archive
