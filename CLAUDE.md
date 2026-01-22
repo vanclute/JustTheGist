@@ -657,7 +657,19 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
 
 ### After Completing Research (Autonomous Only)
 
-**CRITICAL: In autonomous mode, these steps are MANDATORY before signaling task_complete. DO NOT skip curiosity analysis.**
+**DEFINITION: "Completing Research" means ALL of these steps:**
+1. ✓ Gather sources (WebSearch + WebFetch)
+2. ✓ Analyze content using router (`python scripts/analyze_content.py synthesize`)
+3. ✓ Write comprehensive report (save to `docs/`)
+4. ✓ Ingest to Knowledge Base (`python ingest_report.py docs/YourReport.md`)
+5. ☐ Identify next learning topics (see below)
+6. ☐ Signal `[[SIGNAL:task_complete]]`
+
+**DO NOT signal task_complete after just gathering sources. You must complete steps 1-5 above.**
+
+---
+
+**CRITICAL: In autonomous mode, curiosity analysis (step 5) is MANDATORY before signaling task_complete.**
 
 1. **Analyze what you just learned** and identify 3-5 interesting threads to explore:
    - Concepts mentioned but not yet in your KB
