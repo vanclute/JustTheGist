@@ -3,17 +3,6 @@
   "description": "Domain-anchored learning backlog - domain drift prevented via domain_anchor.py scoring",
   "tasks": [
     {
-      "id": "LEARN-016",
-      "description": "Research: CPU Affinity and Thread Scheduling Optimization for Low-Latency Systems",
-      "reason": "Critical gap: implementation of CPU pinning and cache locality for lock-free patterns. Essential for extracting full performance from application-level optimizations in real trading systems. [Domain score: 6/10 - related via performance optimization for trading]",
-      "status": "queued",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "started": null,
-      "last_updated": "2026-01-22T11:45:26"
-    },
-    {
       "id": "LEARN-025",
       "description": "Research: Rx + WPF data binding synchronization patterns",
       "reason": "Bridges Rx streams with WPF UI binding for reactive data flow. Essential for implementing Tickblaze's real-time market data updates directly to UI. Connects LEARN-007 Rx patterns with WPF rendering.",
@@ -46,13 +35,14 @@
       "id": "LEARN-038",
       "description": "Research: UI Automation (UIA) event monitoring with AccEvent tool for testing dynamic content in WPF applications",
       "reason": "Bridges gap in automated accessibility testing (30-40% coverage requiring manual work); critical for WPF trading platforms with live data streams. Mentioned 3+ times in WinAppDriver/Axe.Windows research as necessary for dynamic content validation. Domain anchor score: 10/10 (core: UI Automation, WPF, testing).",
-      "status": "in_progress",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "domain_anchor_score": 10,
       "created": "2026-01-22",
       "started": "2026-01-22",
-      "last_updated": "2026-01-22T14:21:21"
+      "last_updated": "2026-01-22T14:34:15",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-031",
@@ -88,6 +78,110 @@
       "domain_anchor_score": "8/10 - Core domain focus (mentions: WPF)",
       "started": null,
       "last_updated": "2026-01-22T13:55:39"
+    },
+    {
+      "id": "LEARN-039",
+      "description": "Research: AutomationPeer custom implementation patterns for WPF controls",
+      "reason": "Core to event raising and UI Automation support - OnCreateAutomationPeer, pattern implementation, and ListenerExists optimization mentioned throughout AccEvent research",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF + automation)"
+    },
+    {
+      "id": "LEARN-041",
+      "description": "Research: WPF Dispatcher priority and threading models for real-time market data updates",
+      "reason": "GC tuning research mentioned thread isolation and dispatcher queue monitoring as critical for real-time WPF, and trading apps need coordinated UI updates during market data floods",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10"
+    },
+    {
+      "id": "LEARN-016",
+      "description": "Research: CPU Affinity and Thread Scheduling Optimization for Low-Latency Systems",
+      "reason": "Critical gap: implementation of CPU pinning and cache locality for lock-free patterns. Essential for extracting full performance from application-level optimizations in real trading systems. [Domain score: 6/10 - related via performance optimization for trading]",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:43:15",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-040",
+      "description": "Research: .NET Garbage Collection tuning for low-latency WPF applications",
+      "reason": "Lock-free ring buffers and CPU affinity research mentions GC pauses as latency killers (pre-allocate memory, no GC). Understanding Server vs Workstation GC modes, background GC, LOH compaction, and GCLatencyMode settings is critical for optimizing Tickblaze WPF trading platform performance. Direct connection to existing WPF and low-latency research.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF + performance)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T14:45:01",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-042",
+      "description": "Research: PerfView and ETW event tracing for WPF applications",
+      "reason": "GC tuning research heavily referenced ETW events for measuring pause times (26\u03bcs suspension, 4.8ms collection, 21\u03bcs resumption). PerfView provides ground truth for GC behavior, memory allocation, and rendering performance. Essential measurement tool that enables validation of ALL WPF performance optimizations.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain (essential measurement tool for WPF trading performance)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T14:54:00",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-043",
+      "description": "Research: WPF visual tree optimization techniques and complexity reduction",
+      "reason": "PerfView research identified visual tree complexity as consuming 70% of performance budget (70ms in 100ms target). This is a core WPF performance bottleneck directly relevant to Tickblaze trading UI.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "9/10 - Core WPF performance optimization",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T15:04:43",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-044",
+      "description": "Research: WeakEventManager patterns and memory leak prevention in WPF",
+      "reason": "Mentioned repeatedly in visual tree optimization - provides 15-30% memory reduction and prevents common event handler leaks. Critical for long-running WPF applications.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "9/10 - Core domain (WPF memory management, testing long-running apps)"
+    },
+    {
+      "id": "LEARN-045",
+      "description": "Research: WPF DependencyProperty optimization patterns (validation callbacks, coercion, Freezable objects)",
+      "reason": "CPU affinity research mentions cache-line awareness and memory access patterns. DependencyProperty callbacks execute on every property change in WPF data binding - understanding optimization patterns (avoiding validation in hot paths, freezing Freezable objects, coercion vs validation) directly impacts Tickblaze UI responsiveness during high-frequency market data updates. Core WPF performance primitive.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "9/10 - Core WPF performance optimization",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T15:15:00",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-046",
+      "description": "Research: WPF resource dictionary optimization and StaticResource vs DynamicResource performance",
+      "reason": "Freezable XAML pattern showed PresentationOptions:Freeze with StaticResource usage - need to understand when StaticResource vs DynamicResource impacts performance, especially for frozen Freezable objects in trading platform themes",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF + performance optimization)"
     }
   ],
   "config": {
