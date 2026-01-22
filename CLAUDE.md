@@ -305,43 +305,33 @@ Use whisper with txt output format.""", timeout=1200)
 
 ### Step 4: Analyze and Report
 
-**IMPORTANT**: Use the router for synthesis (Gemini → Codex → DeepSeek → GLM → Kimi).
+**CRITICAL**: ALWAYS use the analyze_content.py script to route analysis to cheaper models (Gemini/Codex/DeepSeek instead of Claude).
 
-Once extraction is complete:
+Once extraction/fetching is complete:
 
-1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge using keywords from the content.
+1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge.
 
-2. **Synthesize analysis** using the router (you'll see `✓ SYNTHESIS completed using: GEMINI` or similar):
-```python
-synthesis_prompt = f"""Analyze this content based on user's goal: {user_goal}
+2. **Synthesize using router** (saves Claude tokens - you'll see `✓ SYNTHESIS completed using: GEMINI`):
+```bash
+# Write content to temp file
+cat > temp_content.txt << 'EOF'
+[extracted content here]
+EOF
 
-Content:
-{extracted_content}
-
-Provide:
-- Key insights relevant to the goal
-- Resources mentioned (URLs, tools, repos)
-- Notable quotes
-- Assessment of value
-"""
-
-report_content, synthesis_model = router.synthesize(synthesis_prompt, max_tokens=8000, timeout=600)
+# Synthesize using router (Gemini → Codex → DeepSeek → GLM → Kimi)
+python scripts/analyze_content.py synthesize "$(cat temp_content.txt)" "user's stated goal" > synthesis_result.json
 ```
 
-3. **Save report with model metadata**:
-```python
-from scripts.report_helper import create_report_with_metadata
-
-create_report_with_metadata(
-    title=content_title,
-    content=report_content,
-    extraction_model=extraction_model,
-    synthesis_model=synthesis_model,
-    source_url=original_url
-)
+3. **Parse the result**:
+```bash
+# Extract analysis and model used
+analysis=$(cat synthesis_result.json | python -c "import sys, json; print(json.load(sys.stdin)['analysis'])")
+synthesis_model=$(cat synthesis_result.json | python -c "import sys, json; print(json.load(sys.stdin)['synthesis_model'])")
 ```
 
-4. **Present** a high-level summary to the user immediately
+4. **Save report** with model metadata using report_helper, then **present summary** to user
+
+5. **Cleanup**: `rm temp_content.txt synthesis_result.json`
 
 ### Step 5: Cleanup
 
