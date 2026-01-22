@@ -39,17 +39,6 @@
       "completed": "2026-01-22"
     },
     {
-      "id": "LEARN-007",
-      "description": "Research: Reactive Extensions (Rx) patterns for real-time data streaming",
-      "reason": "Mentioned in 2+ sources as foundational for throttling/conflation in real-time systems. Understanding Rx patterns will improve implementation of high-frequency data handling in trading UIs. Directly builds on synchronization patterns research. [Domain score: 7/10 - adjacent domains: synchronization, architecture]",
-      "status": "in_progress",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "started": "2026-01-22",
-      "last_updated": "2026-01-22T11:24:45"
-    },
-    {
       "id": "LEARN-009",
       "description": "Research: WPF Performance Profiling and Diagnostics for Real-Time Trading Applications",
       "reason": "Mentioned in synchronization research but not deeply covered. Essential for measuring bottlenecks, applying patterns correctly, and validating improvements in real-time systems. [Domain score: 8/10 - core keyword: WPF, performance]",
@@ -83,20 +72,42 @@
       "completed": "2026-01-22"
     },
     {
-      "id": "LEARN-016",
-      "description": "Research: CPU Affinity and Thread Scheduling Optimization for Low-Latency Systems",
-      "reason": "Critical gap: implementation of CPU pinning and cache locality for lock-free patterns. Essential for extracting full performance from application-level optimizations in real trading systems. [Domain score: 6/10 - related via performance optimization for trading]",
-      "status": "in_progress",
+      "id": "LEARN-024",
+      "description": "Research: Accessibility compliance testing in WPF applications (WCAG 2.1, Section 508)",
+      "reason": "Builds directly on AutomationPeer research (LEARN-005). Custom WPF controls with UI Automation support automatically improve accessibility. Essential for Tickblaze: ensures trading UI is usable by traders with disabilities and meets regulatory compliance. Deepens understanding of automation peer patterns.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22"
+    },
+    {
+      "id": "LEARN-007",
+      "description": "Research: Reactive Extensions (Rx) patterns for real-time data streaming",
+      "reason": "Mentioned in 2+ sources as foundational for throttling/conflation in real-time systems. Understanding Rx patterns will improve implementation of high-frequency data handling in trading UIs. Directly builds on synchronization patterns research. [Domain score: 7/10 - adjacent domains: synchronization, architecture]",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
       "started": "2026-01-22",
+      "last_updated": "2026-01-22T12:23:53.569594",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-016",
+      "description": "Research: CPU Affinity and Thread Scheduling Optimization for Low-Latency Systems",
+      "reason": "Critical gap: implementation of CPU pinning and cache locality for lock-free patterns. Essential for extracting full performance from application-level optimizations in real trading systems. [Domain score: 6/10 - related via performance optimization for trading]",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "started": null,
       "last_updated": "2026-01-22T11:45:26"
     },
     {
-      "id": "LEARN-024",
-      "description": "Research: Accessibility compliance testing in WPF applications (WCAG 2.1, Section 508)",
-      "reason": "Builds directly on AutomationPeer research (LEARN-005). Custom WPF controls with UI Automation support automatically improve accessibility. Essential for Tickblaze: ensures trading UI is usable by traders with disabilities and meets regulatory compliance. Deepens understanding of automation peer patterns.",
+      "id": "LEARN-025",
+      "description": "Research: Rx + WPF data binding synchronization patterns",
+      "reason": "Bridges Rx streams with WPF UI binding for reactive data flow. Essential for implementing Tickblaze's real-time market data updates directly to UI. Connects LEARN-007 Rx patterns with WPF rendering.",
+      "domain_score": "8/10 - Core domain focus (WPF)",
       "status": "queued",
       "type": "learning",
       "source": "curiosity",
