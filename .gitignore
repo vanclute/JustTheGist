@@ -52,3 +52,4 @@ bootstrap_kb.py
 # Temporary query/test artifacts
 raw_results.txt
 search_results.json
+synthesis_result.json
