@@ -26,10 +26,12 @@
       "id": "LEARN-037",
       "description": "Research: WPF Dispatcher and thread affinity for UI Automation",
       "reason": "WeakEventManager uses read/write locks for thread safety. Understanding Dispatcher threading model is critical for WPF testing where automation runs on different threads than UI.",
-      "status": "queued",
+      "status": "in_progress",
       "type": "learning",
       "source": "curiosity",
-      "created": "2026-01-22"
+      "created": "2026-01-22",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T15:37:24"
     },
     {
       "id": "LEARN-038",
@@ -170,13 +172,26 @@
       "created": "2026-01-22",
       "domain_score": "9/10 - Core WPF performance optimization",
       "started": "2026-01-22",
-      "last_updated": "2026-01-22T15:15:00",
+      "last_updated": "2026-01-22T15:35:05",
       "completed": "2026-01-22"
     },
     {
       "id": "LEARN-046",
       "description": "Research: WPF resource dictionary optimization and StaticResource vs DynamicResource performance",
       "reason": "Freezable XAML pattern showed PresentationOptions:Freeze with StaticResource usage - need to understand when StaticResource vs DynamicResource impacts performance, especially for frozen Freezable objects in trading platform themes",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF + performance optimization)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T15:42:43",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-047",
+      "description": "Research: Research: WPF PresentationOptions:Freeze implementation and compile-time resource freezing patterns",
+      "reason": "Mentioned in LEARN-045 and LEARN-046 as critical for freezing Freezable objects in XAML (212 bytes vs 972 bytes memory savings). Required for DynamicResource with Brushes to prevent unfrozen resource bugs. Direct compile-time technique for enforcing immutability and thread safety.",
       "status": "queued",
       "type": "learning",
       "source": "curiosity",
