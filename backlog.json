@@ -26,12 +26,13 @@
       "id": "LEARN-037",
       "description": "Research: WPF Dispatcher and thread affinity for UI Automation",
       "reason": "WeakEventManager uses read/write locks for thread safety. Understanding Dispatcher threading model is critical for WPF testing where automation runs on different threads than UI.",
-      "status": "in_progress",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
       "started": "2026-01-22",
-      "last_updated": "2026-01-22T15:37:24"
+      "last_updated": "2026-01-22T15:43:57",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-038",
