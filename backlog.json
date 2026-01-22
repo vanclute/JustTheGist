@@ -193,11 +193,23 @@
       "id": "LEARN-047",
       "description": "Research: Research: WPF PresentationOptions:Freeze implementation and compile-time resource freezing patterns",
       "reason": "Mentioned in LEARN-045 and LEARN-046 as critical for freezing Freezable objects in XAML (212 bytes vs 972 bytes memory savings). Required for DynamicResource with Brushes to prevent unfrozen resource bugs. Direct compile-time technique for enforcing immutability and thread safety.",
+      "status": "in_progress",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF + performance optimization)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T15:44:27"
+    },
+    {
+      "id": "LEARN-048",
+      "description": "Research: WPF visual tree rendering optimization and composition system internals",
+      "reason": "Petzold findings show 10,000x performance difference between frozen/unfrozen objects due to composition system change notification. Understanding this is critical for rendering performance.",
       "status": "queued",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "10/10 - Strong core domain relevance (WPF + performance optimization)"
+      "domain_score": "9/10 - Core WPF rendering performance"
     }
   ],
   "config": {
