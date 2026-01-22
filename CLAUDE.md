@@ -716,11 +716,38 @@ When researching in autonomous mode:
 
    **CRITICAL: To prevent infinite backlog growth, add EXACTLY 1 topic per task, not all candidates.**
 
+   **ALSO CRITICAL: Use domain anchoring to keep topics coherent with the original research goal.**
+
    Choose the ONE most promising topic that:
    - Was mentioned most frequently or by multiple sources
    - Fills an important gap in your knowledge
    - Connects to multiple areas you already know
    - Has practical applicability
+   - **AND stays relevant to the original research domain** (use domain_anchor.py to verify)
+
+   **Domain Anchoring Check (Required):**
+   ```python
+   from scripts.domain_anchor import should_add_topic
+
+   # Before adding ANY topic, check relevance
+   topic = "Your potential topic here"
+   reason = "Why you think it's interesting"
+
+   should_add, explanation = should_add_topic(topic, reason, position_in_backlog=0)
+
+   if should_add:
+       print(f"✓ Topic approved: {explanation}")
+       # Proceed to add to backlog
+   else:
+       print(f"✗ Topic rejected: {explanation}")
+       # Find a better alternative that scores higher
+   ```
+
+   **Scoring guide:**
+   - **8-10**: Core domain (WPF testing, automation, accessibility) - ALWAYS add
+   - **6-7**: Adjacent domains (performance, architecture, related tools) - ALWAYS add
+   - **5-6**: Tangential but defensible (extends knowledge coherently) - OK to add
+   - **0-4**: Off-topic (too far from original goal) - REJECT and find better topic
 
    **If using clautonomous** (backlog.json exists):
    ```python

@@ -1,0 +1,7 @@
+[ModelRouter] Trying gemini...
+[health] Checking gemini... \u2713 SYNTHESIS completed using: GEMINI
+OK
+{
+  "analysis": "Okay, I'm ready for your first command.",
+  "synthesis_model": "gemini"
+}
