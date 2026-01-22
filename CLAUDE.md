@@ -655,10 +655,35 @@ Check hook output for autonomous mode indicators. If using **clautonomous**, loo
 
 If present (or if running under any autonomous wrapper), curiosity mode is engaged.
 
+### Gathering Sources in Autonomous Mode
+
+**IMPORTANT: Include YouTube videos when they add value.**
+
+When researching in autonomous mode:
+
+1. **Use WebSearch** to find diverse sources (papers, articles, videos)
+
+2. **Evaluate YouTube results for quality**:
+   - ✓ **Include if**: Technical depth, expert speakers, conference talks, detailed tutorials
+   - ✓ **Include if**: Recent (2024-2026), high production quality, substantive content
+   - ✗ **Skip if**: Clickbait titles, beginner-only content, promotional fluff
+   - ✗ **Skip if**: Very long (>90min) unless exceptionally relevant
+
+3. **Aim for 1-2 quality YouTube videos per research topic** (when relevant ones exist)
+   - Mix with articles/papers/docs (not 100% YouTube)
+   - Sequential processing with delays (YouTube rate limits)
+   - If no quality videos found, articles alone are fine
+
+4. **Extract from chosen sources**:
+   - YouTube: Use router for transcript extraction
+   - Articles/Papers: WebFetch + router for content extraction
+
+**Quality over quantity** - one excellent video beats five mediocre articles.
+
 ### After Completing Research (Autonomous Only)
 
 **DEFINITION: "Completing Research" means ALL of these steps:**
-1. ✓ Gather sources (WebSearch + WebFetch)
+1. ✓ Gather sources (WebSearch + evaluate + fetch/extract - see above)
 2. ✓ Analyze content using router (`python scripts/analyze_content.py synthesize`)
 3. ✓ Write comprehensive report (save to `docs/`)
 4. ✓ Ingest to Knowledge Base (`python ingest_report.py docs/YourReport.md`)
