@@ -687,11 +687,11 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
    - Connections to multiple areas you already know
    - Practical applicability
 
-3. **Add ONLY the top 1-2 most interesting topics to the backlog**:
+3. **Add ONLY the single most interesting topic to the backlog**:
 
-   **CRITICAL: To prevent infinite backlog growth, add ONLY 1-2 topics per task, not all candidates.**
+   **CRITICAL: To prevent infinite backlog growth, add EXACTLY 1 topic per task, not all candidates.**
 
-   Choose the single most promising topic that:
+   Choose the ONE most promising topic that:
    - Was mentioned most frequently or by multiple sources
    - Fills an important gap in your knowledge
    - Connects to multiple areas you already know
@@ -740,25 +740,20 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
        with open(backlog_path, "w", encoding="utf-8") as f:
            json.dump(data, f, indent=2)
 
-   # Example: Add ONLY the top 1-2 most interesting topics
-   # NOT all candidates - prevents backlog from growing infinitely
-   top_topics = [
+   # Example: Add ONLY the single most interesting topic
+   # NOT all candidates - prevents backlog from growing
+   next_topic = [
        ("hybrid search strategies for RAG", "Mentioned in 3 sources, fills key gap in retrieval knowledge")
    ]
-   # Or at most 2 if both are equally compelling:
-   # top_topics = [
-   #     ("hybrid search strategies for RAG", "Mentioned in 3 sources, fills key gap"),
-   #     ("reranking models", "Critical missing piece, mentioned by all papers")
-   # ]
-   add_learning_tasks(top_topics)
+   add_learning_tasks(next_topic)
    ```
 
    **If using another automation system:**
-   - Write ONLY the top 1-2 topics to `next_topics.txt` (one per line)
-   - Or output them in a format your wrapper expects
+   - Write ONLY the single most interesting topic to `next_topics.txt`
+   - Or output it in a format your wrapper expects
    - Or store in a task queue your system uses
 
-4. **ONLY AFTER adding next topic(s) to backlog, signal completion**:
+4. **ONLY AFTER adding next topic to backlog, signal completion**:
    - **Clautonomous:** `[[SIGNAL:task_complete]]`
    - **Other systems:** Use whatever completion signal your wrapper expects
 
