@@ -751,53 +751,29 @@ When researching in autonomous mode:
 
    **If using clautonomous** (backlog.json exists):
    ```python
-   import json
    from pathlib import Path
+   import sys
 
-   def add_learning_tasks(topics_with_reasons):
-       """Add multiple learning tasks to backlog at once
-
-       Args:
-           topics_with_reasons: List of (topic, reason) tuples
-       """
-       backlog_path = Path("backlog.json")
-       if not backlog_path.exists():
-           return  # Not using clautonomous
-
-       with open(backlog_path, "r", encoding="utf-8") as f:
-           data = json.load(f)
-
-       existing_ids = [t.get("id", "") for t in data.get("tasks", [])]
-       learn_ids = [int(id.split("-")[1]) for id in existing_ids if id.startswith("LEARN-")]
-       next_num = max(learn_ids, default=0) + 1
-
-       # Add all topics
-       from datetime import datetime
-       today = datetime.now().strftime("%Y-%m-%d")
-
-       for topic, reason in topics_with_reasons:
-           new_task = {
-               "id": f"LEARN-{next_num:03d}",
-               "description": f"Research: {topic}",
-               "reason": reason,
-               "status": "queued",
-               "type": "learning",
-               "source": "curiosity",  # Auto-generated, lower priority than user tasks
-               "created": today
-           }
-           data.setdefault("tasks", []).append(new_task)
-           print(f"Added to backlog: {new_task['id']} - {topic}")
-           next_num += 1
-
-       with open(backlog_path, "w", encoding="utf-8") as f:
-           json.dump(data, f, indent=2)
+   # Use backlog_manager for safe, deduplicated task management
+   sys.path.insert(0, str(Path.cwd() / "scripts"))
+   from backlog_manager import add_task
 
    # Example: Add ONLY the single most interesting topic
    # NOT all candidates - prevents backlog from growing
-   next_topic = [
-       ("hybrid search strategies for RAG", "Mentioned in 3 sources, fills key gap in retrieval knowledge")
-   ]
-   add_learning_tasks(next_topic)
+   topic = "WPF UI virtualization techniques for large datasets"
+   reason = "DynamicData research mentioned virtualization for 10,000+ item collections"
+   domain_score = "8/10 - Core domain focus (WPF)"
+
+   # add_task automatically:
+   # - Deduplicates (skips if topic already exists)
+   # - Assigns next LEARN-XXX ID
+   # - Sets status to "queued"
+   task_id = add_task(topic, reason, domain_score=domain_score)
+
+   if task_id:
+       print(f"✓ Added {task_id}: {topic}")
+   else:
+       print(f"✗ Skipped duplicate: {topic}")
    ```
 
    **If using another automation system:**

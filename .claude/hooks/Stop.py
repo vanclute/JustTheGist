@@ -6,14 +6,26 @@ import json
 from pathlib import Path
 from datetime import datetime
 
+# Add scripts directory to path
+sys.path.insert(0, str(Path(__file__).parent.parent.parent / "scripts"))
+
+try:
+    from backlog_manager import load_backlog, save_backlog
+    USE_MANAGER = True
+except ImportError:
+    USE_MANAGER = False
+
 def main():
     backlog_path = Path("backlog.json")
     if not backlog_path.exists():
         sys.exit(0)  # No backlog, nothing to do
 
-    # Read current backlog
-    with open(backlog_path, "r", encoding="utf-8") as f:
-        data = json.load(f)
+    # Load backlog with automatic deduplication if available
+    if USE_MANAGER:
+        data = load_backlog(backlog_path)
+    else:
+        with open(backlog_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
 
     tasks = data.get("tasks", [])
     # Accept both "done" and "completed" status
@@ -42,8 +54,11 @@ def main():
 
     # Update backlog with only active tasks
     data["tasks"] = active
-    with open(backlog_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2)
+    if USE_MANAGER:
+        save_backlog(data, backlog_path)
+    else:
+        with open(backlog_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
 
     print(f"[Backlog] Archived {len(completed)} completed task(s)", file=sys.stderr)
     sys.exit(0)

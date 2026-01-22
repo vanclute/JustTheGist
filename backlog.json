@@ -34,50 +34,6 @@
       "created": "2026-01-22"
     },
     {
-      "id": "LEARN-031",
-      "description": "Research: WinAppDriver integration with Axe.Windows for accessibility testing automation",
-      "reason": "Mentioned as recommended approach for driving Windows application state during Axe.Windows accessibility scans in CI/CD pipelines. Bridges automated testing (FlaUI/WinAppDriver) with accessibility compliance. Essential for implementing automated accessibility regression testing in Tickblaze.",
-      "status": "in_progress",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "domain_score": "10/10 - Strong core domain relevance (automation + accessibility testing)",
-      "started": "2026-01-22",
-      "last_updated": "2026-01-22T14:12:55"
-    },
-    {
-      "id": "LEARN-032",
-      "description": "Research: WPF UI Automation thread affinity and synchronization",
-      "reason": "Thread affinity enforcement is a core concept in WPF Dispatcher research, and UI Automation must also respect thread affinity when querying or manipulating UI elements from test automation",
-      "status": "in_progress",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "started": "2026-01-22",
-      "last_updated": "2026-01-22T13:35:48"
-    },
-    {
-      "id": "LEARN-033",
-      "description": "Research: WPF UI Automation thread affinity and synchronization",
-      "reason": "Thread affinity enforcement is a core concept in WPF Dispatcher research, and UI Automation must also respect thread affinity when querying or manipulating UI elements from test automation",
-      "status": "queued",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22"
-    },
-    {
-      "id": "LEARN-035",
-      "description": "Research: WPF CompositionTarget.Rendering optimization patterns",
-      "reason": "Recommended as best solution for high-speed property updates in trading apps, mentioned as 30-60Hz natural frequency, directly applicable to Tickblaze, fills gap in understanding how to implement properly with thread safety",
-      "status": "in_progress",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "domain_anchor_score": "8/10 - Core domain focus (mentions: WPF)",
-      "started": "2026-01-22",
-      "last_updated": "2026-01-22T13:55:39"
-    },
-    {
       "id": "LEARN-037",
       "description": "Research: WPF Dispatcher and thread affinity for UI Automation",
       "reason": "WeakEventManager uses read/write locks for thread safety. Understanding Dispatcher threading model is critical for WPF testing where automation runs on different threads than UI.",
@@ -85,6 +41,53 @@
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22"
+    },
+    {
+      "id": "LEARN-038",
+      "description": "Research: UI Automation (UIA) event monitoring with AccEvent tool for testing dynamic content in WPF applications",
+      "reason": "Bridges gap in automated accessibility testing (30-40% coverage requiring manual work); critical for WPF trading platforms with live data streams. Mentioned 3+ times in WinAppDriver/Axe.Windows research as necessary for dynamic content validation. Domain anchor score: 10/10 (core: UI Automation, WPF, testing).",
+      "status": "in_progress",
+      "type": "learning",
+      "source": "curiosity",
+      "domain_anchor_score": 10,
+      "created": "2026-01-22",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T14:21:21"
+    },
+    {
+      "id": "LEARN-031",
+      "description": "Research: WinAppDriver integration with Axe.Windows for accessibility testing automation",
+      "reason": "Mentioned as recommended approach for driving Windows application state during Axe.Windows accessibility scans in CI/CD pipelines. Bridges automated testing (FlaUI/WinAppDriver) with accessibility compliance. Essential for implementing automated accessibility regression testing in Tickblaze.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (automation + accessibility testing)",
+      "started": null,
+      "last_updated": "2026-01-22T14:12:55"
+    },
+    {
+      "id": "LEARN-032",
+      "description": "Research: WPF UI Automation thread affinity and synchronization",
+      "reason": "Thread affinity enforcement is a core concept in WPF Dispatcher research, and UI Automation must also respect thread affinity when querying or manipulating UI elements from test automation",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "started": null,
+      "last_updated": "2026-01-22T13:35:48"
+    },
+    {
+      "id": "LEARN-035",
+      "description": "Research: WPF CompositionTarget.Rendering optimization patterns",
+      "reason": "Recommended as best solution for high-speed property updates in trading apps, mentioned as 30-60Hz natural frequency, directly applicable to Tickblaze, fills gap in understanding how to implement properly with thread safety",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_anchor_score": "8/10 - Core domain focus (mentions: WPF)",
+      "started": null,
+      "last_updated": "2026-01-22T13:55:39"
     }
   ],
   "config": {
