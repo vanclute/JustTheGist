@@ -245,78 +245,103 @@ For large research tasks, prefer diversifying sources over exhausting YouTube.
 
 ---
 
-**IMPORTANT**: Delegate extraction to a low-reasoning task agent (Haiku for Claude, Flash for Gemini, etc.). This is mechanical work that doesn't require deep reasoning.
+**IMPORTANT**: Use the ModelRouter for extraction tasks. It automatically routes to cheap models (Gemini → Codex → DeepSeek → GLM → Kimi) with automatic fallback on rate limits.
+
+**Initialize the router once per session:**
+```python
+from scripts.model_router import ModelRouter
+router = ModelRouter()
+```
+
+Extraction is mechanical work that doesn't require deep reasoning - the router handles this efficiently.
 
 #### YouTube Videos
 
-**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
+Use the router for extraction (you'll see `✓ EXTRACTION completed using: GEMINI` or similar):
 
-Delegate to low-reasoning agent (Haiku/Flash/etc.) with this prompt:
+```python
+extraction_prompt = f"""Extract metadata and transcript from YouTube video: {url}
+
+Use yt-dlp for metadata and youtube-transcript-api for transcript.
+Return: title, description, channel, duration, upload_date, and full transcript text.
+"""
+
+result, extraction_model = router.extract(extraction_prompt, timeout=600)
 ```
-Extract metadata and transcript from YouTube video: [URL]
 
-1. Get metadata using yt-dlp --dump-json --no-download
-2. Extract transcript using youtube-transcript-api
-3. Return: title, description, channel, duration, upload_date, and full transcript text
-
-If transcript unavailable, report the error and suggest Whisper as fallback.
-```
-
-The agent should:
-- Parse JSON for: `title`, `description`, `channel`, `duration`, `upload_date`
-- Extract VIDEO_ID from URL (part after `v=` or `youtu.be/`)
-- Use `YouTubeTranscriptApi` to fetch transcript
-- Join transcript entries into full text
-- Return all extracted data back to main session
+Store `extraction_model` for report metadata.
 
 #### Other Online Videos (non-YouTube)
 
-**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
-
-Delegate to low-reasoning agent to:
-- Extract metadata using `yt-dlp --dump-json --no-download`
-- Extract subtitles using `yt-dlp --write-auto-sub --sub-lang en`
-- Return metadata and subtitle text, or suggest Whisper fallback if unavailable
+Use router for extraction:
+```python
+result, extraction_model = router.extract(f"""Extract metadata and subtitles from: {url}
+Use yt-dlp for metadata and subtitles.""", timeout=600)
+```
 
 #### Web Articles
 
-**No delegation needed** - use WebFetch directly in main session (already efficient).
+Fetch HTML with WebFetch, then extract content with router:
+```python
+html = WebFetch(url, "Extract the main article content")
+result, extraction_model = router.extract(f"Extract key content from HTML:\n{html}")
+```
 
 #### PDF Documents
 
-**No delegation needed** - use Read tool directly in main session (native support).
+Read PDF with Read tool, then extract content with router:
+```python
+pdf_text = Read(pdf_path)
+result, extraction_model = router.extract(f"Extract key content from PDF:\n{pdf_text}")
+```
 
-#### Local Audio Files
+#### Local Audio/Video Files
 
-**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
-
-Delegate to low-reasoning agent to:
-- Transcribe using `whisper "filepath" --output_format txt --output_dir .`
-- Read generated `.txt` file
-- Return transcript text
-
-#### Local Video Files
-
-**Note: Dependencies already verified in pre-flight check. Task agents can proceed directly.**
-
-Delegate to low-reasoning agent to:
-- Transcribe using `whisper "filepath" --output_format txt --output_dir .`
-- Read generated `.txt` file
-- Return transcript text
+Use router for transcription tasks:
+```python
+result, extraction_model = router.extract(f"""Transcribe audio file: {filepath}
+Use whisper with txt output format.""", timeout=1200)
+```
 
 ### Step 4: Analyze and Report
 
-**IMPORTANT**: This happens in the MAIN SESSION (requires reasoning and judgment).
+**IMPORTANT**: Use the router for synthesis (Gemini → Codex → DeepSeek → GLM → Kimi).
 
 Once extraction is complete:
 
-1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge using keywords from the content. Keep relevant context available for enriching the analysis.
-2. **Review** all extracted content from the task agent
-3. **Identify** key insights relevant to user's stated goals
-4. **Extract** any resources mentioned (URLs, tools, repos, references)
-5. **Investigate** relevant linked resources using WebFetch if appropriate
-6. **Generate** a detailed report in `docs/` with filename based on content title
-7. **Present** a high-level summary to the user immediately
+1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge using keywords from the content.
+
+2. **Synthesize analysis** using the router (you'll see `✓ SYNTHESIS completed using: GEMINI` or similar):
+```python
+synthesis_prompt = f"""Analyze this content based on user's goal: {user_goal}
+
+Content:
+{extracted_content}
+
+Provide:
+- Key insights relevant to the goal
+- Resources mentioned (URLs, tools, repos)
+- Notable quotes
+- Assessment of value
+"""
+
+report_content, synthesis_model = router.synthesize(synthesis_prompt, max_tokens=8000, timeout=600)
+```
+
+3. **Save report with model metadata**:
+```python
+from scripts.report_helper import create_report_with_metadata
+
+create_report_with_metadata(
+    title=content_title,
+    content=report_content,
+    extraction_model=extraction_model,
+    synthesis_model=synthesis_model,
+    source_url=original_url
+)
+```
+
+4. **Present** a high-level summary to the user immediately
 
 ### Step 5: Cleanup
 
@@ -685,13 +710,18 @@ If present (or if running under any autonomous wrapper), curiosity mode is engag
        next_num = max(learn_ids, default=0) + 1
 
        # Add all topics
+       from datetime import datetime
+       today = datetime.now().strftime("%Y-%m-%d")
+
        for topic, reason in topics_with_reasons:
            new_task = {
                "id": f"LEARN-{next_num:03d}",
                "description": f"Research: {topic}",
                "reason": reason,
                "status": "queued",
-               "type": "learning"
+               "type": "learning",
+               "source": "curiosity",  # Auto-generated, lower priority than user tasks
+               "created": today
            }
            data.setdefault("tasks", []).append(new_task)
            print(f"Added to backlog: {new_task['id']} - {topic}")
