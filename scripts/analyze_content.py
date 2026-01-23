@@ -14,7 +14,19 @@ from pathlib import Path
 # Add project root to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.model_router import ModelRouter
+# Try importing ModelRouter from clautonomous (when running under claude-auto)
+# Fall back to local scripts/ folder if not available
+try:
+    # When running under claude-auto, clautonomous/src is in sys.path
+    from model_router import ModelRouter
+except ImportError:
+    try:
+        # Fall back to local scripts folder
+        from scripts.model_router import ModelRouter
+    except ImportError:
+        print("⚠ The ModelRouter dependency isn't available. I'll synthesize directly.", file=sys.stderr)
+        print("  ModelRouter requires clautonomous to be configured.", file=sys.stderr)
+        sys.exit(1)
 
 
 def extract_content(source: str) -> dict:
