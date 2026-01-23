@@ -61,3 +61,4 @@ scripts/model_router.py
 raw_results.txt
 search_results.json
 synthesis_result.json
+scripts/analyze_content.py

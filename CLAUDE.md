@@ -307,33 +307,25 @@ Use whisper with txt output format.""", timeout=1200)
 
 ### Step 4: Analyze and Report
 
-**CRITICAL**: ALWAYS use the analyze_content.py script to route analysis to cheaper models (Gemini/Codex/DeepSeek instead of Claude).
-
 Once extraction/fetching is complete:
 
 1. **Consult Knowledge Base** (if enabled): Search for related prior knowledge.
 
-2. **Synthesize using router** (saves Claude tokens - you'll see `✓ SYNTHESIS completed using: GEMINI`):
-```bash
-# Write content to temp file
-cat > temp_content.txt << 'EOF'
-[extracted content here]
-EOF
+2. **Analyze the content**: Read all extracted content and identify key insights relevant to user's stated goals.
 
-# Synthesize using router (Gemini → Codex → DeepSeek → GLM → Kimi)
-python scripts/analyze_content.py synthesize "$(cat temp_content.txt)" "user's stated goal" > synthesis_result.json
-```
+3. **Extract resources**: Note any URLs, tools, repos, references mentioned.
 
-3. **Parse the result**:
-```bash
-# Extract analysis and model used
-analysis=$(cat synthesis_result.json | python -c "import sys, json; print(json.load(sys.stdin)['analysis'])")
-synthesis_model=$(cat synthesis_result.json | python -c "import sys, json; print(json.load(sys.stdin)['synthesis_model'])")
-```
+4. **Generate report**: Create a comprehensive markdown report with:
+   - Executive summary
+   - Key insights relevant to user's goals
+   - Resources mentioned with descriptions
+   - Notable quotes
+   - Assessment of value
+   - Connections to related topics
 
-4. **Save report** with model metadata using report_helper, then **present summary** to user
+5. **Save report**: Use `scripts/report_helper.py` to save with metadata, then present summary to user.
 
-5. **Cleanup**: `rm temp_content.txt synthesis_result.json`
+**Note**: When running under `claude-auto` (autonomous mode), synthesis may be delegated to cheaper models (Gemini/Codex/DeepSeek) automatically if available. In regular Claude sessions, you perform the analysis directly.
 
 ### Step 5: Cleanup
 
@@ -686,7 +678,7 @@ When researching in autonomous mode:
 
 **DEFINITION: "Completing Research" means ALL of these steps:**
 1. ✓ Gather sources (WebSearch + evaluate + fetch/extract - see above)
-2. ✓ Analyze content using router (`python scripts/analyze_content.py synthesize`)
+2. ✓ Analyze content and identify key insights
 3. ✓ Write comprehensive report (save to `docs/`)
 4. ✓ Ingest to Knowledge Base (`python ingest_report.py docs/YourReport.md`)
 5. ☐ Identify next learning topics (see below)
