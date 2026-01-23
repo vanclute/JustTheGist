@@ -7,20 +7,26 @@
       "description": "Research: Rx + WPF data binding synchronization patterns",
       "reason": "Bridges Rx streams with WPF UI binding for reactive data flow. Essential for implementing Tickblaze's real-time market data updates directly to UI. Connects LEARN-007 Rx patterns with WPF rendering.",
       "domain_score": "8/10 - Core domain focus (WPF)",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
-      "created": "2026-01-22"
+      "created": "2026-01-22",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:40:12.680467",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-028",
       "description": "Research: WPF UI virtualization techniques for large datasets",
       "reason": "DynamicData research mentioned virtualization operators and VirtualizingPanel for 10,000+ item collections. Understanding proper implementation of UI virtualization extends reactive collection knowledge into rendering optimization critical for trading platform performance. Connects to LEARN-027 reactive collections.",
       "domain_score": "8/10 - Core domain focus (WPF)",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
-      "created": "2026-01-22"
+      "created": "2026-01-22",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T16:12:52",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-037",
@@ -63,12 +69,13 @@
       "id": "LEARN-032",
       "description": "Research: WPF UI Automation thread affinity and synchronization",
       "reason": "Thread affinity enforcement is a core concept in WPF Dispatcher research, and UI Automation must also respect thread affinity when querying or manipulating UI elements from test automation",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "started": null,
-      "last_updated": "2026-01-22T13:35:48"
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:45:32",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-035",
@@ -86,21 +93,14 @@
       "id": "LEARN-039",
       "description": "Research: AutomationPeer custom implementation patterns for WPF controls",
       "reason": "Core to event raising and UI Automation support - OnCreateAutomationPeer, pattern implementation, and ListenerExists optimization mentioned throughout AccEvent research",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "10/10 - Strong core domain relevance (WPF + automation)"
-    },
-    {
-      "id": "LEARN-041",
-      "description": "Research: WPF Dispatcher priority and threading models for real-time market data updates",
-      "reason": "GC tuning research mentioned thread isolation and dispatcher queue monitoring as critical for real-time WPF, and trading apps need coordinated UI updates during market data floods",
-      "status": "queued",
-      "type": "learning",
-      "source": "curiosity",
-      "created": "2026-01-22",
-      "domain_score": "8/10"
+      "domain_score": "10/10 - Strong core domain relevance (WPF + automation)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:38:54",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-016",
@@ -193,13 +193,14 @@
       "id": "LEARN-047",
       "description": "Research: Research: WPF PresentationOptions:Freeze implementation and compile-time resource freezing patterns",
       "reason": "Mentioned in LEARN-045 and LEARN-046 as critical for freezing Freezable objects in XAML (212 bytes vs 972 bytes memory savings). Required for DynamicResource with Brushes to prevent unfrozen resource bugs. Direct compile-time technique for enforcing immutability and thread safety.",
-      "status": "in_progress",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
       "domain_score": "10/10 - Strong core domain relevance (WPF + performance optimization)",
       "started": "2026-01-22",
-      "last_updated": "2026-01-22T15:44:27"
+      "last_updated": "2026-01-22T15:53:30",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-048",
@@ -210,6 +211,184 @@
       "source": "curiosity",
       "created": "2026-01-22",
       "domain_score": "9/10 - Core WPF rendering performance"
+    },
+    {
+      "id": "LEARN-051",
+      "description": "Research: WPF DrawingVisual implementation patterns for high-performance rendering",
+      "reason": "ItemContainerStyle/DataTemplate research recommends DrawingVisual as best approach for large datasets (10k+ items) with 5% CPU updates vs 10% for standard templates. Directly applicable to Tickblaze Time & Sales and chart data.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain focus (WPF)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T16:32:34",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-053",
+      "description": "Research: WPF routed events and visual tree event routing patterns",
+      "reason": "Hit testing research showed DrawingVisual host containers handle events. Understanding event routing through visual tree (bubbling/tunneling) is essential for custom control event handling and complements hit testing knowledge.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain (WPF event handling)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T16:53:05",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-054",
+      "description": "Research: WPF UI Automation frameworks (FlaUI, White, Microsoft UI Automation) - architecture comparison",
+      "reason": "Mentioned 3x in routed events research - frameworks rely on event routing and visual tree traversal. KB lacks automation framework comparison.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Core domain (WPF automation frameworks)"
+    },
+    {
+      "id": "LEARN-055",
+      "description": "Research: WPF Dispatcher threading models and multi-dispatcher architectures",
+      "reason": "CodeProject trading app uses multiple dispatchers per view to prevent UI freezing - core pattern for high-performance trading platforms with concurrent data feeds",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain focus (WPF threading for trading platforms)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:10:56",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-057",
+      "description": "Research: Research: WPF AttachedBehavior patterns for UI Automation test helpers",
+      "reason": "Thread affinity research showed automation peers require UI thread access. AttachedBehaviors can encapsulate Dispatcher.InvokeAsync patterns into reusable test helpers, simplifying cross-thread UI manipulation in test automation code. Bridges MVVM attached property patterns with automation testing infrastructure.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain (WPF + testing + automation)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T17:25:03",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-058",
+      "description": "Research: FlaUI library practical testing patterns and best practices",
+      "reason": "AttachedBehavior research mentioned FlaUI as modern WPF testing framework - need practical patterns for element finding, wait strategies, pattern-based testing",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Core domain focus (WPF testing, UI Automation)"
+    },
+    {
+      "id": "LEARN-059",
+      "description": "Research: WPF UI virtualization techniques for ItemsControl with large datasets",
+      "reason": "Referenced in AutomationPeer research - DynamicData and observable collections can have 10,000+ items requiring virtualization for performance while maintaining automation support",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Core domain focus (WPF, UI)"
+    },
+    {
+      "id": "LEARN-041",
+      "description": "Research: WPF Dispatcher priority and threading models for real-time market data updates",
+      "reason": "GC tuning research mentioned thread isolation and dispatcher queue monitoring as critical for real-time WPF, and trading apps need coordinated UI updates during market data floods",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10",
+      "started": null,
+      "last_updated": "2026-01-22T15:53:38"
+    },
+    {
+      "id": "LEARN-049",
+      "description": "Research: WPF CompositionTarget.Rendering for synchronized real-time market data updates",
+      "reason": "Referenced 4x in Dispatcher research as critical for trading platforms - synchronizes UI updates with monitor refresh rate (30-60 Hz) to achieve smooth 60 FPS visual throughput. Decoples data arrival from rendering loop. Core WPF rendering mechanism.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain (WPF + rendering optimization for trading UI)",
+      "started": null,
+      "last_updated": "2026-01-22T16:53:12"
+    },
+    {
+      "id": "LEARN-050",
+      "description": "Research: WPF ItemContainerStyle and DataTemplate performance optimization patterns",
+      "reason": "Multiple sources mentioned template complexity (3-5 elements max) and the ItemContainerGenerator. Understanding how to optimize DataTemplates and ItemContainerStyles is critical for maintaining virtualization performance.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain focus (mentions: WPF)",
+      "started": null,
+      "last_updated": "2026-01-22T16:12:59"
+    },
+    {
+      "id": "LEARN-052",
+      "description": "Research: WPF visual layer hit testing patterns for custom controls",
+      "reason": "DrawingVisual requires manual hit testing - need to understand geometry-based hit testing for trading UI interactions",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF, custom controls, trading UI, testing)",
+      "started": null,
+      "last_updated": "2026-01-22T16:32:41"
+    },
+    {
+      "id": "LEARN-056",
+      "description": "Research: WPF DispatcherSynchronizationContext and custom SynchronizationContext implementation patterns",
+      "reason": "Reed Copsey and Microsoft docs emphasized SynchronizationContext.SetSynchronizationContext requirement before window creation in multi-threaded scenarios - critical for BackgroundWorker and TaskScheduler compatibility. Understanding custom SynchronizationContext implementations extends multi-dispatcher knowledge and bridges async/await patterns with WPF threading.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "[Core learning (first 3 topics)] Score 8/10 - Core domain focus (mentions: WPF)",
+      "started": null,
+      "last_updated": "2026-01-22T17:25:10"
+    },
+    {
+      "id": "LEARN-060",
+      "description": "Research: Research: ReactiveUI MessageBus and inter-ViewModel communication patterns for WPF",
+      "reason": "Rx + WPF research mentioned ViewModel-to-ViewModel binding as advanced pattern. MessageBus enables loosely-coupled communication between reactive ViewModels essential for modular trading platform UI (order entry triggering position updates, chart selection updating watchlist, etc.). Fills gap in practical patterns for coordinating multiple reactive ViewModels without tight coupling.",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "8/10 - Core domain focus (WPF + reactive architecture)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T18:39:37",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-061",
+      "description": "Research: ReactiveCommand composition and enablement patterns",
+      "reason": "Mentioned in MessageBus research - cross-ViewModel command coordination, validation, and composition patterns are fundamental to ReactiveUI MVVM",
+      "status": "done",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "7/10 - Adjacent domain (ReactiveUI patterns, architecture, synchronization)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T18:59:39.051020",
+      "completed": "2026-01-22"
+    },
+    {
+      "id": "LEARN-062",
+      "description": "Research: ReactiveUI Interactions pattern for testable dialogs and user confirmations",
+      "reason": "ReactiveCommand research mentioned Interactions as preferred pattern over MessageBus for user interactions. Critical for testing dialog workflows in WPF automation. Provides testable abstraction for View-driven operations like confirmations, file pickers, etc.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Core domain (ReactiveUI testing patterns for WPF automation)"
     }
   ],
   "config": {
