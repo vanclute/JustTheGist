@@ -62,3 +62,4 @@ raw_results.txt
 search_results.json
 synthesis_result.json
 scripts/analyze_content.py
+scripts/domain_anchor.py
