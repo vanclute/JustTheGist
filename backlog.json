@@ -57,13 +57,14 @@
       "id": "LEARN-031",
       "description": "Research: WinAppDriver integration with Axe.Windows for accessibility testing automation",
       "reason": "Mentioned as recommended approach for driving Windows application state during Axe.Windows accessibility scans in CI/CD pipelines. Bridges automated testing (FlaUI/WinAppDriver) with accessibility compliance. Essential for implementing automated accessibility regression testing in Tickblaze.",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
       "domain_score": "10/10 - Strong core domain relevance (automation + accessibility testing)",
-      "started": null,
-      "last_updated": "2026-01-22T14:12:55"
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T19:02:06.344280",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-032",
@@ -81,13 +82,14 @@
       "id": "LEARN-035",
       "description": "Research: WPF CompositionTarget.Rendering optimization patterns",
       "reason": "Recommended as best solution for high-speed property updates in trading apps, mentioned as 30-60Hz natural frequency, directly applicable to Tickblaze, fills gap in understanding how to implement properly with thread safety",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
       "domain_anchor_score": "8/10 - Core domain focus (mentions: WPF)",
-      "started": null,
-      "last_updated": "2026-01-22T13:55:39"
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T19:02:43.349529",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-039",
@@ -157,11 +159,13 @@
       "id": "LEARN-044",
       "description": "Research: WeakEventManager patterns and memory leak prevention in WPF",
       "reason": "Mentioned repeatedly in visual tree optimization - provides 15-30% memory reduction and prevents common event handler leaks. Critical for long-running WPF applications.",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "9/10 - Core domain (WPF memory management, testing long-running apps)"
+      "domain_score": "9/10 - Core domain (WPF memory management, testing long-running apps)",
+      "completed": "2026-01-22",
+      "last_updated": "2026-01-22T19:03:03.118789"
     },
     {
       "id": "LEARN-045",
@@ -206,11 +210,14 @@
       "id": "LEARN-048",
       "description": "Research: WPF visual tree rendering optimization and composition system internals",
       "reason": "Petzold findings show 10,000x performance difference between frozen/unfrozen objects due to composition system change notification. Understanding this is critical for rendering performance.",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "9/10 - Core WPF rendering performance"
+      "domain_score": "9/10 - Core WPF rendering performance",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T19:09:42.399460",
+      "completed": "2026-01-22"
     },
     {
       "id": "LEARN-051",
@@ -242,11 +249,13 @@
       "id": "LEARN-054",
       "description": "Research: WPF UI Automation frameworks (FlaUI, White, Microsoft UI Automation) - architecture comparison",
       "reason": "Mentioned 3x in routed events research - frameworks rely on event routing and visual tree traversal. KB lacks automation framework comparison.",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "10/10 - Core domain (WPF automation frameworks)"
+      "domain_score": "10/10 - Core domain (WPF automation frameworks)",
+      "completed": "2026-01-22",
+      "last_updated": "2026-01-22T19:03:39.255441"
     },
     {
       "id": "LEARN-055",
@@ -278,11 +287,13 @@
       "id": "LEARN-058",
       "description": "Research: FlaUI library practical testing patterns and best practices",
       "reason": "AttachedBehavior research mentioned FlaUI as modern WPF testing framework - need practical patterns for element finding, wait strategies, pattern-based testing",
-      "status": "queued",
+      "status": "done",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "10/10 - Core domain focus (WPF testing, UI Automation)"
+      "domain_score": "10/10 - Core domain focus (WPF testing, UI Automation)",
+      "completed": "2026-01-22",
+      "last_updated": "2026-01-22T19:03:39.261423"
     },
     {
       "id": "LEARN-059",
@@ -389,6 +400,16 @@
       "source": "curiosity",
       "created": "2026-01-22",
       "domain_score": "10/10 - Core domain (ReactiveUI testing patterns for WPF automation)"
+    },
+    {
+      "id": "LEARN-063",
+      "description": "Research: Direct2D interop with WPF for high-performance custom rendering",
+      "reason": "Composition system research showed WPF uses 3 draw calls per ellipse vs Direct2D uses 1 for 9 ellipses. D2D interop provides 6-9x rendering efficiency for performance-critical custom controls in trading UIs like charts and time/sales displays.",
+      "status": "queued",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF, custom controls, trading UI)"
     }
   ],
   "config": {
