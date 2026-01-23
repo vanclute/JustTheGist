@@ -405,11 +405,23 @@
       "id": "LEARN-063",
       "description": "Research: Direct2D interop with WPF for high-performance custom rendering",
       "reason": "Composition system research showed WPF uses 3 draw calls per ellipse vs Direct2D uses 1 for 9 ellipses. D2D interop provides 6-9x rendering efficiency for performance-critical custom controls in trading UIs like charts and time/sales displays.",
+      "status": "in_progress",
+      "type": "learning",
+      "source": "curiosity",
+      "created": "2026-01-22",
+      "domain_score": "10/10 - Strong core domain relevance (WPF, custom controls, trading UI)",
+      "started": "2026-01-22",
+      "last_updated": "2026-01-22T19:11:01"
+    },
+    {
+      "id": "LEARN-064",
+      "description": "Research: WPF HwndHost interop patterns for hosting external content (DirectX, Visual Layer, native controls)",
+      "reason": "Foundation pattern for Direct2D interop - required for Visual Layer, DirectX hosting, and native control embedding",
       "status": "queued",
       "type": "learning",
       "source": "curiosity",
       "created": "2026-01-22",
-      "domain_score": "10/10 - Strong core domain relevance (WPF, custom controls, trading UI)"
+      "domain_score": "8/10 - Core domain focus (WPF)"
     }
   ],
   "config": {
