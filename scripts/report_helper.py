@@ -57,22 +57,18 @@ synthesis_model: {synthesis_model}
     return output_path
 
 
-# Example usage
 if __name__ == "__main__":
-    report = create_report_with_metadata(
-        title="Understanding FlaUI",
-        content="""
-# Understanding FlaUI
-
-## Overview
-FlaUI is a .NET library for UI automation...
-
-## Key Features
-- Cross-platform support
-- WPF/WinForms compatibility
-""",
-        extraction_model="gemini",
-        synthesis_model="codex",
-        source_url="https://example.com/flaui-tutorial"
-    )
-    print(f"\nCreated: {report}")
+    import sys
+    print("ERROR: This script should not be run directly.", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("Usage: Import as module and call create_report_with_metadata()", file=sys.stderr)
+    print("", file=sys.stderr)
+    print("Example:", file=sys.stderr)
+    print("  from scripts.report_helper import create_report_with_metadata", file=sys.stderr)
+    print("  report = create_report_with_metadata(", file=sys.stderr)
+    print("      title='My Report',", file=sys.stderr)
+    print("      content='...',", file=sys.stderr)
+    print("      extraction_model='model_name',", file=sys.stderr)
+    print("      synthesis_model='model_name'", file=sys.stderr)
+    print("  )", file=sys.stderr)
+    sys.exit(1)
