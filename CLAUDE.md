@@ -245,9 +245,11 @@ For large research tasks, prefer diversifying sources over exhausting YouTube.
 
 ---
 
-**IMPORTANT**: Use the ModelRouter for extraction tasks. It automatically routes to cheap models (Gemini → Codex → DeepSeek → GLM → Kimi) with automatic fallback on rate limits.
+**OPTIONAL: ModelRouter Integration**
 
-**Initialize the router once per session:**
+> **Note**: ModelRouter is an external integration that routes extraction tasks to cheaper models (Gemini, DeepSeek, etc.) with automatic fallback. It requires [clautonomous](https://github.com/vanclute/clautonomous) and [CommittAI](https://github.com/vanclute/committai) to be configured on your system. If not available, extraction tasks will use the current model directly.
+
+If ModelRouter is configured:
 ```python
 from scripts.model_router import ModelRouter
 router = ModelRouter()

@@ -54,6 +54,9 @@ RESUME_*.md
 bootstrap_kb.py
 stop_dispatcher_simplified.py
 
+# External integrations (user-specific, see clautonomous)
+scripts/model_router.py
+
 # Temporary query/test artifacts
 raw_results.txt
 search_results.json
